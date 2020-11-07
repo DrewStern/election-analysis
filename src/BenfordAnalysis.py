@@ -19,42 +19,35 @@ class ElectionResult:
     def __str__(self):
         return "year: " + self.year + "," + "state: " + self.state + "," + "candidate: " + self.candidate + "," + "candidatevotes: " + self.candidatevotes
 
-def write_benford_distribution(benford_distribution):
+def write_benford_distributions(benford_distributions):
     output_path = get_result_output_path()
     with open(output_path, 'w') as csvfile:
         csvfile.write("YEAR,CANDIDATE,ONES,TWOS,THREES,FOURS,FIVES,SIXES,SEVENS,EIGHTS,NINES" + os.linesep)
-        for year_candidate_votes in benford_distribution:
-            # csvfile.write(year_candidate_votes.)
-            csvfile.writelines(benford_distribution)
+        for benford_distribution in benford_distributions:
+            csvfile.write(benford_distribution)
         csvfile.close()
 
-def get_benford_distribution():
-    # basic structure is nested dictionaries: <year, <candidate, votes>>
-    candidates_by_year = dict()
-    vote_count_by_candidate = dict()
-    benford_distribution_by_candidate = dict()
-
-    election_results = get_election_results()
-    for election_result in election_results:
-        if not candidates_by_year.get(election_result.year):
-            candidates_by_year[election_result.year] = vote_count_by_candidate
-        vote_count_by_candidate = partition_votes_by_leading_digit(election_results, election_result.candidate, election_result.year)
-        benford_distribution_by_candidate = calculate_benford_distribution(vote_count_by_candidate, election_result.totalvotes)
-        candidates_by_year[election_result.year] = benford_distribution_by_candidate
-
-    return candidates_by_year
-
-def calculate_benford_distribution(vote_count_by_candidate, totalvotes):
-    return [100 * int(x) / int(totalvotes) for x in vote_count_by_candidate]
-
-def partition_votes_by_leading_digit(election_results, candidate, year):
+def calculate_benford_distribution():
+    # basic structure of the data is nested dictionary: <year, <candidate, [benford_distribution]>>
+    result = dict()
     occurrences = 9 * [0]
+    election_results = get_election_results()
+
     for range_leading_digit in range(1, 9):
-        for result in election_results:
-            if result.candidate == candidate and result.year == year:
-                vote_leading_digit = result.candidatevotes[0]
-                occurrences[int(vote_leading_digit) - 1] += 1
-    return occurrences
+        for election_result in election_results:
+            # add the year as the primary key
+            if not result.get(election_result.year):
+                result[election_result.year] = dict()
+
+            # add the candidate as the secondary key
+            if not result.get(election_result.year).get(election_result.candidate):
+                result[election_result.year][election_result.candidate] = dict()
+
+            # calculate the benford distribution
+            vote_leading_digit = int(election_result.candidatevotes[0])
+            occurrences[vote_leading_digit - 1] += 1
+            result[election_result.year][election_result.candidate] = [int(x) / int(election_result.totalvotes) for x in occurrences]
+    return result
 
 def get_election_results():
     with open(read_presidential_votes_state_data()) as csvfile:
@@ -78,4 +71,4 @@ def read_presidential_votes_county_data():
 def get_root_directory():
     return str(Path(os.path.realpath(__file__)).parent.parent)
 
-write_benford_distribution(get_benford_distribution())
+write_benford_distributions(calculate_benford_distribution())

@@ -2,6 +2,9 @@ import csv
 # import ElectionResult
 import numpy
 # import pyplot
+import os
+from pathlib import Path
+import datetime
 
 class ElectionResult:
     def __init__(self, data):
@@ -16,50 +19,63 @@ class ElectionResult:
     def __str__(self):
         return "year: " + self.year + "," + "state: " + self.state + "," + "candidate: " + self.candidate + "," + "candidatevotes: " + self.candidatevotes
 
-def write_distribution():
-    with open(read_presidential_votes_state_data()) as csvfile:
-        raw_data = csv.reader(csvfile)
-        data_by_year = filter_by_year(raw_data, "1976")
-        candidates_by_year = get_candidates(data_by_year)
-        vote_distribution_by_candidate = dict()
-        for candidate in candidates_by_year:
-            vote_distribution_by_candidate[candidate] = calculate_candidate_vote_distribution(data_by_year, candidate)
-            print(candidate + " : ")
-            print(vote_distribution_by_candidate[candidate])
+def write_benford_distribution(benford_distribution):
+    output_path = get_result_output_path()
+    with open(output_path, 'w') as csvfile:
+        csvfile.write("YEAR,CANDIDATE,ONES,TWOS,THREES,FOURS,FIVES,SIXES,SEVENS,EIGHTS,NINES" + os.linesep)
+        for year_candidate_votes in benford_distribution:
+            # csvfile.write(year_candidate_votes.)
+            csvfile.writelines(benford_distribution)
+        csvfile.close()
 
-def calculate_candidate_vote_distribution(data, candidate):
+def get_benford_distribution():
+    # basic structure is nested dictionaries: <year, <candidate, votes>>
+    candidates_by_year = dict()
+    vote_count_by_candidate = dict()
+    benford_distribution_by_candidate = dict()
+
+    election_results = get_election_results()
+    for election_result in election_results:
+        if not candidates_by_year.get(election_result.year):
+            candidates_by_year[election_result.year] = vote_count_by_candidate
+        vote_count_by_candidate = partition_votes_by_leading_digit(election_results, election_result.candidate, election_result.year)
+        benford_distribution_by_candidate = calculate_benford_distribution(vote_count_by_candidate, election_result.totalvotes)
+        candidates_by_year[election_result.year] = benford_distribution_by_candidate
+
+    return candidates_by_year
+
+def calculate_benford_distribution(vote_count_by_candidate, totalvotes):
+    return [100 * int(x) / int(totalvotes) for x in vote_count_by_candidate]
+
+def partition_votes_by_leading_digit(election_results, candidate, year):
     occurrences = 9 * [0]
     for range_leading_digit in range(1, 9):
-        for row in data:
-            if row.writein is True:
-                continue
-            if row.candidate == candidate:
-                vote_leading_digit = row.candidatevotes[0]
+        for result in election_results:
+            if result.candidate == candidate and result.year == year:
+                vote_leading_digit = result.candidatevotes[0]
                 occurrences[int(vote_leading_digit) - 1] += 1
     return occurrences
 
-def get_candidates(data):
-    candidates = []
-    for row in data:
-        if row.candidate and row.candidate not in candidates:
-            candidates.append(row.candidate)
-    return candidates
+def get_election_results():
+    with open(read_presidential_votes_state_data()) as csvfile:
+        raw_data = csv.reader(csvfile)
+        results = []
+        for row in raw_data:
+            results.append(ElectionResult(row))
+        csvfile.close()
+        results.pop(0) #remove the header row
+        return results
 
-def filter_by_year(data, year):
-    return filter_by(data, 'year', year)
-
-def filter_by(data, property_name, with_matching_value):
-    meets_criteria = []
-    for row in data:
-        result = ElectionResult(row)
-        if getattr(result, property_name) == with_matching_value:
-            meets_criteria.append(result)
-    return meets_criteria
+def get_result_output_path():
+    return get_root_directory() + "\\results\\benford-distribution-" + str(datetime.datetime.now()).replace(" ", "-").replace(":", "-")
 
 def read_presidential_votes_state_data():
-    return "D:\\code\\benford-analysis\\resources\\presidential-votes-by-state-1976-2016-reduced.csv"
+    return get_root_directory() + "\\resources\\presidential-votes-by-state-1976-2016-reduced.csv"
 
 def read_presidential_votes_county_data():
-    return "D:\\code\\benford-analysis\\resources\\presidential-votes-by-county-2000-2016-reduced.csv"
+    return get_root_directory() + "\\resources\\presidential-votes-by-county-2000-2016-reduced.csv"
 
-write_distribution()
+def get_root_directory():
+    return str(Path(os.path.realpath(__file__)).parent.parent)
+
+write_benford_distribution(get_benford_distribution())

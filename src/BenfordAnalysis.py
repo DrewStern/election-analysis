@@ -20,33 +20,44 @@ class ElectionResult:
         return "year: " + self.year + "," + "state: " + self.state + "," + "candidate: " + self.candidate + "," + "candidatevotes: " + self.candidatevotes
 
 def write_benford_distributions(benford_distributions):
+    # print(benford_distributions)
     output_path = get_result_output_path()
     with open(output_path, 'w') as csvfile:
-        csvfile.write("YEAR,CANDIDATE,ONES,TWOS,THREES,FOURS,FIVES,SIXES,SEVENS,EIGHTS,NINES" + os.linesep)
-        for benford_distribution in benford_distributions:
-            csvfile.write(benford_distribution)
+        csvfile.write("YEAR,CANDIDATE,ONES,TWOS,THREES,FOURS,FIVES,SIXES,SEVENS,EIGHTS,NINES\n")
+        for year in benford_distributions:
+            candidate_benford_distributions = benford_distributions[year]
+            for candidate in candidate_benford_distributions:
+                benford_distribution = candidate_benford_distributions[candidate]
+                csvfile.write(year + "," + candidate + "," + ",".join(map(str, benford_distribution)) + "\n")
         csvfile.close()
 
 def calculate_benford_distribution():
     # basic structure of the data is nested dictionary: <year, <candidate, [benford_distribution]>>
     result = dict()
-    occurrences = 9 * [0]
+    leading_digit_occurrences = 9 * [0]
     election_results = get_election_results()
 
-    for range_leading_digit in range(1, 9):
-        for election_result in election_results:
-            # add the year as the primary key
-            if not result.get(election_result.year):
-                result[election_result.year] = dict()
+    for election_result in election_results:
+        # don't care about writeins
+        if election_result.writein is True:
+            continue
 
-            # add the candidate as the secondary key
-            if not result.get(election_result.year).get(election_result.candidate):
-                result[election_result.year][election_result.candidate] = dict()
+        # ignore cases where the candidate field is empty
+        if not election_result.candidate:
+            continue
 
-            # calculate the benford distribution
-            vote_leading_digit = int(election_result.candidatevotes[0])
-            occurrences[vote_leading_digit - 1] += 1
-            result[election_result.year][election_result.candidate] = [int(x) / int(election_result.totalvotes) for x in occurrences]
+        # add the year as the primary key
+        if not result.get(election_result.year):
+            result[election_result.year] = dict()
+
+        # add the candidate as the secondary key
+        if not result.get(election_result.year).get(election_result.candidate):
+            result[election_result.year][election_result.candidate] = dict()
+
+        # calculate the benford distribution
+        leading_digit = int(election_result.candidatevotes[0])
+        leading_digit_occurrences[leading_digit - 1] += 1
+        result[election_result.year][election_result.candidate] = [int(x) / int(election_result.totalvotes) for x in leading_digit_occurrences]
     return result
 
 def get_election_results():
@@ -60,7 +71,7 @@ def get_election_results():
         return results
 
 def get_result_output_path():
-    return get_root_directory() + "\\results\\benford-distribution-" + str(datetime.datetime.now()).replace(" ", "-").replace(":", "-")
+    return get_root_directory() + "\\results\\run-" + str(datetime.datetime.now()).replace(" ", "-").replace(":", "-")
 
 def read_presidential_votes_state_data():
     return get_root_directory() + "\\resources\\presidential-votes-by-state-1976-2016-reduced.csv"

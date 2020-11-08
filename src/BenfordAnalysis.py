@@ -20,7 +20,6 @@ class ElectionResult:
         return "year: " + self.year + "," + "state: " + self.state + "," + "candidate: " + self.candidate + "," + "candidatevotes: " + self.candidatevotes
 
 def write_benford_distributions(benford_distributions):
-    # print(benford_distributions)
     output_path = get_result_output_path()
     with open(output_path, 'w') as csvfile:
         csvfile.write("YEAR,CANDIDATE,ONES,TWOS,THREES,FOURS,FIVES,SIXES,SEVENS,EIGHTS,NINES\n")
@@ -31,11 +30,10 @@ def write_benford_distributions(benford_distributions):
                 csvfile.write(year + ",'" + candidate + "'," + ",".join(map(str, benford_distribution)) + "\n")
         csvfile.close()
 
-def calculate_benford_distribution():
+def calculate_benford_distribution(election_results):
     # basic structure of the data is nested dictionary: <year, <candidate, [benford_distribution]>>
     result = dict()
     leading_digit_occurrences = 9 * [0]
-    election_results = get_election_results()
 
     for election_result in election_results:
         # don't care about writeins
@@ -60,8 +58,8 @@ def calculate_benford_distribution():
         result[election_result.year][election_result.candidate] = [100 * int(x) / int(election_result.totalvotes) for x in leading_digit_occurrences]
     return result
 
-def get_election_results():
-    with open(read_presidential_votes_state_data()) as csvfile:
+def get_election_results(data_file_path):
+    with open(data_file_path) as csvfile:
         raw_data = csv.reader(csvfile)
         results = []
         for row in raw_data:
@@ -82,4 +80,4 @@ def read_presidential_votes_county_data():
 def get_root_directory():
     return str(Path(os.path.realpath(__file__)).parent.parent)
 
-write_benford_distributions(calculate_benford_distribution())
+write_benford_distributions(calculate_benford_distribution(get_election_results(read_presidential_votes_state_data())))

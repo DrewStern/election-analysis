@@ -12,9 +12,11 @@ class ElectionResult:
         self.state = data[1]
         self.candidate = data[2].replace(",", "")
         self.party = data[3]
-        self.writein = data[4]
-        self.candidatevotes = data[5]
-        self.totalvotes = data[6]
+        # self.writein = data[4]
+        self.candidatevotes = data[4]
+        self.totalvotes = data[5]
+        if len(data) > 6:
+            self.county = data[6]
 
     def __str__(self):
         return "year: " + self.year + "," + "state: " + self.state + "," + "candidate: " + self.candidate + "," + "candidatevotes: " + self.candidatevotes
@@ -37,11 +39,15 @@ def calculate_benford_distribution(election_results):
 
     for election_result in election_results:
         # don't care about writeins
-        if election_result.writein is True:
-            continue
+        # if election_result.writein is True:
+        #     continue
 
         # ignore cases where the candidate field is empty
         if not election_result.candidate:
+            continue
+
+        # some candidatevotes are missing from the county-level data
+        if election_result.candidatevotes == "NA":
             continue
 
         # add the year as the primary key
@@ -80,4 +86,4 @@ def read_presidential_votes_county_data():
 def get_root_directory():
     return str(Path(os.path.realpath(__file__)).parent.parent)
 
-write_benford_distributions(calculate_benford_distribution(get_election_results(read_presidential_votes_state_data())))
+write_benford_distributions(calculate_benford_distribution(get_election_results(read_presidential_votes_county_data())))

@@ -1,6 +1,6 @@
 import csv
 # import ElectionResult
-import numpy
+# import numpy
 # import pyplot
 import os
 from pathlib import Path
@@ -71,15 +71,21 @@ def get_election_results(data_file_path):
         return results
 
 def get_result_output_path():
-    return get_root_directory() + "\\results\\run-" + str(datetime.datetime.now()).replace(" ", "-").replace(":", "-") + ".csv"
+    return get_results_directory() + "run-" + str(datetime.datetime.now()).replace(" ", "-").replace(":", "-") + ".csv"
 
 def read_presidential_votes_state_data():
-    return get_root_directory() + "\\resources\\presidential-votes-by-state-1976-2016-reduced.csv"
+    return get_resources_directory() + "presidential-votes-by-state-1976-2016-reduced.csv"
 
 def read_presidential_votes_county_data():
-    return get_root_directory() + "\\resources\\presidential-votes-by-county-2000-2016-reduced.csv"
+    return get_resources_directory() + "presidential-votes-by-county-2000-2016-reduced.csv"
+
+def get_results_directory():
+    return get_root_directory() + "results\\"
+
+def get_resources_directory():
+    return get_root_directory() + "resources\\"
 
 def get_root_directory():
-    return str(Path(os.path.realpath(__file__)).parent.parent)
+    return str(Path(os.path.realpath(__file__)).parent.parent) + "\\"
 
 write_benford_distributions(calculate_benford_distributions(get_election_results(read_presidential_votes_county_data())))

@@ -104,6 +104,13 @@ def find_counties_predictive_of_loser(prediction_rate_by_county):
     return [county for county in prediction_rate_by_county if prediction_rate_by_county[county] == 0]
 
 def get_prediction_rate_by_county(candidate_votes_by_year_county):
+    number_of_elections = len(candidate_votes_by_year_county.keys())
+    prediction_rate_by_county = dict()
+    for county_prediction_result in get_correct_predictions_by_county(candidate_votes_by_year_county).items():
+        prediction_rate_by_county[county_prediction_result[0]] = county_prediction_result[1] / number_of_elections
+    return prediction_rate_by_county
+
+def get_correct_predictions_by_county(candidate_votes_by_year_county):
     correct_predictions_by_county = dict()
     for year in candidate_votes_by_year_county:
         for county_prediction_result in candidate_votes_by_year_county[year]:
@@ -117,12 +124,7 @@ def get_prediction_rate_by_county(candidate_votes_by_year_county):
                 correct_predictions_by_county[county_prediction_result] = 0
             if county_winner[0] in get_nationally_winning_candidates_by_year().values():
                 correct_predictions_by_county[county_prediction_result] += 1
-    number_of_elections = len(candidate_votes_by_year_county.keys())
-
-    prediction_rate_by_county = dict()
-    for county_prediction_result in correct_predictions_by_county.items():
-        prediction_rate_by_county[county_prediction_result[0]] = county_prediction_result[1] / number_of_elections
-    return prediction_rate_by_county
+    return correct_predictions_by_county
 
 def get_election_results_by_county(election_results):
     # basic structure of the data is nested dictionary: <year, <county_by_state, <candidate, vote_count>>>

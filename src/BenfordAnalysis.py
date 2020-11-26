@@ -89,6 +89,14 @@ def get_resources_directory():
 def get_root_directory():
     return str(Path(os.path.realpath(__file__)).parent.parent) + "\\"
 
+def write_counties_by_predictiveness(get_prediction_rate_by_county):
+    output_path = get_result_output_path()
+    with open(output_path, 'w') as csvfile:
+        csvfile.write("COUNTY,PREDICTION_RATE\n")
+        for prediction_rate_by_county in get_prediction_rate_by_county.items():
+            csvfile.write(prediction_rate_by_county[0] + "," + str(prediction_rate_by_county[1]) + "\n")
+        csvfile.close()
+
 def find_counties_predictive_of_winner(prediction_rate_by_county):
     return [county for county in prediction_rate_by_county if prediction_rate_by_county[county] == 1]
 
@@ -157,5 +165,6 @@ def get_nationally_losing_candidates_by_year():
     return nationally_losing_candidates_by_year
 
 # write_benford_distributions(calculate_benford_distributions(get_election_results(read_presidential_votes_state_data())))
-print(find_counties_predictive_of_winner(get_prediction_rate_by_county(get_election_results_by_county(get_election_results(read_presidential_votes_county_data())))))
+# print(find_counties_predictive_of_winner(get_prediction_rate_by_county(get_election_results_by_county(get_election_results(read_presidential_votes_county_data())))))
 # print(find_counties_predictive_of_loser(get_prediction_rate_by_county(get_election_results_by_county(get_election_results(read_presidential_votes_county_data())))))
+write_counties_by_predictiveness(get_prediction_rate_by_county(get_election_results_by_county(get_election_results(read_presidential_votes_county_data()))))

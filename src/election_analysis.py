@@ -3,6 +3,24 @@ import os
 from pathlib import Path
 import datetime
 
+class ElectionResults:
+    def __init__(self, results):
+        self.results = results
+
+    def sum_votes_by_leading_digit(self):
+        # basic structure of the data is nested dictionary: <year, <candidate, [benford_distribution]>>
+        raw_vote_distribution = dict()
+        for election_result in self.results:
+            if not raw_vote_distribution.get(election_result.year):
+                raw_vote_distribution[election_result.year] = dict()
+
+            if not raw_vote_distribution.get(election_result.year).get(election_result.candidate):
+                raw_vote_distribution[election_result.year][election_result.candidate] = 9 * [0]
+
+            leading_digit = int(election_result.candidatevotes[0])
+            raw_vote_distribution[election_result.year][election_result.candidate][leading_digit - 1] += 1
+        return raw_vote_distribution
+
 class ElectionResult:
     def __init__(self, data):
         self.year = data[0]

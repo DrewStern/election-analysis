@@ -37,39 +37,23 @@ class BenfordAnalysisServiceTestCase(unittest.TestCase):
 
         self.benford_analysis_service = BenfordAnalysisService(self.mock_election_result_repository)
 
-    def test_calculate_leading_digit_proportions_new(self):
-        actual_leading_digit_proportions = self.benford_analysis_service.calculate_leading_digit_proportions_new(
+    def test_calculate_benford_distributions(self):
+        actual_benford_distribution = self.benford_analysis_service.calculate_benford_distributions(
+            self.mock_election_result_data)
+        expected_benford_distribution = [50, 50, 0, 0, 0, 0, 0, 0, 0]
+        self.assertEqual(expected_benford_distribution, actual_benford_distribution)
+
+    def test_calculate_leading_digit_proportions(self):
+        actual_leading_digit_proportions = self.benford_analysis_service.calculate_leading_digit_proportions(
             self.mock_leading_digit_occurrences)
         expected_leading_digit_proportions = [20, 0, 20, 0, 20, 0, 20, 0, 20]
         self.assertEqual(expected_leading_digit_proportions, actual_leading_digit_proportions)
 
-    def test_sum_votes_by_leading_digit_new(self):
+    def test_sum_votes_by_leading_digit(self):
         expected_votes_summed_by_leading_digit = [9, 9, 0, 0, 0, 0, 0, 0, 0]
-        actual_votes_summed_by_leading_digit = self.benford_analysis_service.sum_votes_by_leading_digit_new(
+        actual_votes_summed_by_leading_digit = self.benford_analysis_service.sum_votes_by_leading_digit(
             self.mock_election_result_data)
         self.assertEqual(expected_votes_summed_by_leading_digit, actual_votes_summed_by_leading_digit)
-
-    # def test_calculate_leading_digit_proportions_old(self):
-    #     actual_leading_digit_proportions = self.benford_analysis_service.sum_votes_by_leading_digit_old(
-    #         self.mock_election_result_data)
-    #     expected_leading_digit_proportions = []
-    #     self.assertEqual(expected_leading_digit_proportions, actual_leading_digit_proportions)
-
-    def test_sum_votes_by_leading_digit_old(self):
-        actual_votes_summed_by_leading_digit = self.benford_analysis_service.sum_votes_by_leading_digit_old(
-            self.mock_election_result_data)
-
-        expected_ones = 3
-        actual_ones = actual_votes_summed_by_leading_digit["1993"]["Fake Candidate 1"][0]
-        self.assertEqual(expected_ones, actual_ones)
-
-        expected_fours = 0
-        actual_fours = actual_votes_summed_by_leading_digit["1993"]["Fake Candidate 1"][3]
-        self.assertEqual(expected_fours, actual_fours)
-
-        expected_sixes = 0
-        actual_sixes = actual_votes_summed_by_leading_digit["1993"]["Fake Candidate 2"][5]
-        self.assertEqual(expected_sixes, actual_sixes)
 
 
 if __name__ == '__main__':

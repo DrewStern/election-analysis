@@ -3,7 +3,6 @@ from unittest import mock
 
 from src.benford_analysis_service import BenfordAnalysisService
 from src.election_result import ElectionResult
-from src.election_result_repository import ElectionResultRepository
 
 
 class BenfordAnalysisServiceTestCase(unittest.TestCase):
@@ -30,10 +29,7 @@ class BenfordAnalysisServiceTestCase(unittest.TestCase):
             ElectionResult(["1996", "FK", "Fake Candidate 3", "Fake Party 3", "2101", "22000000", "Fake County 3"]),
         ]
 
-        self.mock_election_result_repository = ElectionResultRepository()
-        self.mock_election_result_repository.get_election_results = mock.MagicMock(self.mock_election_result_data)
-
-        self.benford_analysis_service = BenfordAnalysisService(self.mock_election_result_repository)
+        self.benford_analysis_service = BenfordAnalysisService()
 
     def test_calculate_benford_distribution(self):
         actual_benford_distribution = self.benford_analysis_service.calculate_benford_distribution(

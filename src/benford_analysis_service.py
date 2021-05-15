@@ -1,7 +1,4 @@
 class BenfordAnalysisService:
-    def __init__(self, election_result_repository):
-        self.election_result_repository = election_result_repository
-
     def calculate_benford_distribution(self, raw_vote_data):
         leading_digit_occurrences = 9 * [0]
         for election_result in raw_vote_data:

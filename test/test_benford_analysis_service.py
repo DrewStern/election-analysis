@@ -32,9 +32,9 @@ class BenfordAnalysisServiceTestCase(unittest.TestCase):
         self.benford_analysis_service = BenfordAnalysisService()
 
     def test_calculate_benford_distribution(self):
+        expected_benford_distribution = [33.33, 33.33, 0, 0, 0, 0, 0, 0, 33.33]
         actual_benford_distribution = self.benford_analysis_service.calculate_benford_distribution(
             self.mock_election_result_data)
-        expected_benford_distribution = [33.33, 33.33, 0, 0, 0, 0, 0, 0, 33.33]
         self.assertEqual(expected_benford_distribution, actual_benford_distribution)
 
 

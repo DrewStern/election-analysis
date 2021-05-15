@@ -54,16 +54,13 @@ def get_root_directory():
     return str(Path(os.path.realpath(__file__)).parent.parent) + "\\"
 
 
-repository = ElectionResultRepository()
-benfordAnalysisService = BenfordAnalysisService(repository)
-predictivenessAnalysisService = PredictivenessAnalysisService(repository)
+election_result_repository = ElectionResultRepository()
+county_level_results = election_result_repository.get_election_results_by_county(election_result_repository.get_election_results())
 
-write_benford_distributions(
-    benfordAnalysisService.calculate_benford_distribution(
-        repository.get_election_results_by_county(repository.get_election_results(read_presidential_votes_county_data()))),
-    get_result_output_path())
+benfordAnalysisService = BenfordAnalysisService()
+benford_distribution = benfordAnalysisService.calculate_benford_distribution(county_level_results)
+write_benford_distributions(benford_distribution, get_result_output_path())
 
-write_counties_by_predictiveness(
-    predictivenessAnalysisService.get_prediction_rate_by_county(
-        repository.get_election_results_by_county(repository.get_election_results(read_presidential_votes_county_data()))),
-    get_result_output_path())
+predictivenessAnalysisService = PredictivenessAnalysisService(election_result_repository)
+predictiveness_results = predictivenessAnalysisService.get_prediction_rate_by_county(county_level_results)
+write_counties_by_predictiveness(predictiveness_results, get_result_output_path())

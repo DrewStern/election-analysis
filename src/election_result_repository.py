@@ -9,7 +9,7 @@ class ElectionResultRepository:
 
         for election_result in election_results:
             # only care about major party candidates for now
-            if self.is_not_major_party(election_result):
+            if election_result.is_not_major_party():
                 continue
 
             county_by_state = election_result.county + "," + election_result.state
@@ -44,12 +44,6 @@ class ElectionResultRepository:
             csvfile.close()
             election_results.pop(0)  # remove the header row
             return election_results
-
-    def is_major_party(self, election_result):
-        return election_result.party == "republican" or election_result.party == "democrat"
-
-    def is_not_major_party(self, election_result):
-        return not self.is_major_party(election_result)
 
     def get_nationally_winning_candidates_by_year(self):
         nationally_winning_candidates_by_year = dict()

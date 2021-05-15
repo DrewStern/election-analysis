@@ -11,3 +11,9 @@ class ElectionResult:
 
     def __str__(self):
         return "year: " + self.year + "," + "state: " + self.state + "," + "candidate: " + self.candidate + "," + "candidatevotes: " + self.candidatevotes
+
+    def is_major_party(self):
+        return self.party == "republican" or self.party == "democrat"
+
+    def is_not_major_party(self):
+        return not self.is_major_party()

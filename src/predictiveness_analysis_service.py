@@ -2,13 +2,6 @@ class PredictivenessAnalysisService:
     def __init__(self, election_result_repository):
         self.election_result_repository = election_result_repository
 
-    def write_counties_by_predictiveness(self, get_prediction_rate_by_county, output_path):
-        with open(output_path, 'w') as csvfile:
-            csvfile.write("COUNTY,PREDICTION_RATE\n")
-            for prediction_rate_by_county in get_prediction_rate_by_county.items():
-                csvfile.write(prediction_rate_by_county[0] + "," + str(prediction_rate_by_county[1]) + "\n")
-            csvfile.close()
-
     def find_counties_predictive_of_winner(self, prediction_rate_by_county):
         return [county for county in prediction_rate_by_county if prediction_rate_by_county[county] == 1]
 

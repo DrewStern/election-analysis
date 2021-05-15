@@ -7,7 +7,7 @@ from src.election_result_repository import ElectionResultRepository
 from src.predictiveness_analysis_service import PredictivenessAnalysisService
 
 
-def write_counties_by_predictiveness(self, get_prediction_rate_by_county, output_path):
+def write_counties_by_predictiveness(get_prediction_rate_by_county, output_path):
     with open(output_path, 'w') as csvfile:
         csvfile.write("COUNTY,PREDICTION_RATE\n")
         for prediction_rate_by_county in get_prediction_rate_by_county.items():
@@ -15,7 +15,7 @@ def write_counties_by_predictiveness(self, get_prediction_rate_by_county, output
         csvfile.close()
 
 
-def write_benford_distributions(self, benford_distributions, output_path):
+def write_benford_distributions(benford_distributions, output_path):
     with open(output_path, 'w') as csvfile:
         csvfile.write("YEAR,CANDIDATE,ONES,TWOS,THREES,FOURS,FIVES,SIXES,SEVENS,EIGHTS,NINES\n")
         for outer_key in benford_distributions:
@@ -60,12 +60,10 @@ predictivenessAnalysisService = PredictivenessAnalysisService(repository)
 
 write_benford_distributions(
     benfordAnalysisService.calculate_benford_distributions_old(
-        repository.get_election_results_by_county(
-            repository.get_election_results(read_presidential_votes_county_data()))),
+        repository.get_election_results_by_county(repository.get_election_results(read_presidential_votes_county_data()))),
     get_result_output_path())
 
 write_counties_by_predictiveness(
     predictivenessAnalysisService.get_prediction_rate_by_county(
-        repository.get_election_results_by_county(
-            repository.get_election_results(read_presidential_votes_county_data()))),
+        repository.get_election_results_by_county(repository.get_election_results(read_presidential_votes_county_data()))),
     get_result_output_path())

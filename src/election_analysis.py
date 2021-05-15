@@ -59,7 +59,7 @@ benfordAnalysisService = BenfordAnalysisService(repository)
 predictivenessAnalysisService = PredictivenessAnalysisService(repository)
 
 write_benford_distributions(
-    benfordAnalysisService.calculate_benford_distributions_old(
+    benfordAnalysisService.calculate_benford_distribution(
         repository.get_election_results_by_county(repository.get_election_results(read_presidential_votes_county_data()))),
     get_result_output_path())
 

@@ -3,32 +3,7 @@ from src.election_result import ElectionResult
 
 
 class ElectionResultRepository:
-    def get_election_results_by_county(self, election_results):
-        # basic structure of the data is nested dictionary: <year, <county_by_state, <candidate, vote_count>>>
-        candidate_votes_by_year_county = dict()
-
-        for election_result in election_results:
-            # only care about major party candidates for now
-            if election_result.is_not_major_party():
-                continue
-
-            county_by_state = election_result.county + "," + election_result.state
-
-            if not candidate_votes_by_year_county.get(election_result.year):
-                candidate_votes_by_year_county[election_result.year] = dict()
-            if not candidate_votes_by_year_county.get(election_result.year).get(county_by_state):
-                candidate_votes_by_year_county[election_result.year][county_by_state] = dict()
-            if not candidate_votes_by_year_county.get(election_result.year).get(county_by_state).get(
-                    election_result.candidate):
-                candidate_votes_by_year_county[election_result.year][county_by_state][
-                    election_result.candidate] = dict()
-
-            candidate_votes_by_year_county[election_result.year][county_by_state][
-                election_result.candidate] = election_result.candidatevotes
-
-        return candidate_votes_by_year_county
-
-    def get_election_results(self, data_file_path):
+    def get_election_results(self, data_file_path, major_party_results_only=True):
         with open(data_file_path) as csvfile:
             raw_data = csv.reader(csvfile)
             election_results = []
@@ -38,6 +13,9 @@ class ElectionResultRepository:
                     continue
 
                 if election_result.candidatevotes == "NA":
+                    continue
+
+                if major_party_results_only and election_result.is_not_major_party():
                     continue
 
                 election_results.append(election_result)
@@ -52,6 +30,7 @@ class ElectionResultRepository:
         nationally_winning_candidates_by_year["2008"] = "Barack Obama"
         nationally_winning_candidates_by_year["2012"] = "Barack Obama"
         nationally_winning_candidates_by_year["2016"] = "Donald Trump"
+        nationally_winning_candidates_by_year["2020"] = "Joe Biden"
         return nationally_winning_candidates_by_year
 
     def get_nationally_losing_candidates_by_year(self):
@@ -61,4 +40,5 @@ class ElectionResultRepository:
         nationally_losing_candidates_by_year["2008"] = "John McCain"
         nationally_losing_candidates_by_year["2012"] = "Mitt Romney"
         nationally_losing_candidates_by_year["2016"] = "Hillary Clinton"
+        nationally_losing_candidates_by_year["2020"] = "Donald Trump"
         return nationally_losing_candidates_by_year

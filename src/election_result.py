@@ -8,7 +8,7 @@ class ElectionResult:
         self.totalvotes = data[5]
         if len(data) > 6:
             self.county = data[6]
-        self.locale = self.county + "," + self.state
+            self.locale = self.county + "," + self.state
 
     def __str__(self):
         return "year: " + self.year + "," + "state: " + self.state + "," + "candidate: " + self.candidate + "," + "candidatevotes: " + self.candidatevotes

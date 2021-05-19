@@ -55,7 +55,7 @@ def get_root_directory():
 
 
 election_result_repository = ElectionResultRepository()
-county_level_results = election_result_repository.get_election_results_by_county(election_result_repository.get_election_results(read_presidential_votes_county_data()))
+county_level_results = election_result_repository.get_election_results(read_presidential_votes_county_data())
 
 benfordAnalysisService = BenfordAnalysisService()
 benford_distribution = benfordAnalysisService.calculate_benford_distribution(county_level_results)

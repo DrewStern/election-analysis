@@ -8,6 +8,7 @@ class ElectionResult:
         self.totalvotes = data[5]
         if len(data) > 6:
             self.county = data[6]
+        self.locale = self.county + "," + self.state
 
     def __str__(self):
         return "year: " + self.year + "," + "state: " + self.state + "," + "candidate: " + self.candidate + "," + "candidatevotes: " + self.candidatevotes
@@ -17,3 +18,6 @@ class ElectionResult:
 
     def is_not_major_party(self):
         return not self.is_major_party()
+
+    def is_from_same_election(self, year, county, state):
+        return self.year == year and self.county == county and self.state == state

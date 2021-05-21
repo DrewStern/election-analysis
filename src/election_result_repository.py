@@ -3,7 +3,7 @@ from src.election_result import ElectionResult
 
 
 class ElectionResultRepository:
-    def get_election_results(self, data_file_path, major_party_results_only=True):
+    def get_election_results(self, data_file_path, only_major_party_results=True):
         with open(data_file_path) as csvfile:
             raw_data = csv.reader(csvfile)
             election_results = []
@@ -15,7 +15,7 @@ class ElectionResultRepository:
                 if election_result.candidatevotes == "NA":
                     continue
 
-                if major_party_results_only and election_result.is_not_major_party():
+                if only_major_party_results and election_result.is_not_major_party():
                     continue
 
                 election_results.append(election_result)

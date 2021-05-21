@@ -57,10 +57,10 @@ def get_root_directory():
 election_result_repository = ElectionResultRepository()
 county_level_results = election_result_repository.get_election_results(read_presidential_votes_county_data())
 
-benfordAnalysisService = BenfordAnalysisService()
-benford_distribution = benfordAnalysisService.calculate_benford_distribution(county_level_results)
+benford_analysis_service = BenfordAnalysisService()
+benford_distribution = benford_analysis_service.calculate_benford_distribution(county_level_results)
 write_benford_analysis(benford_distribution, get_result_output_path())
 
-predictivenessAnalysisService = PredictivenessAnalysisService(election_result_repository)
-predictiveness_results = predictivenessAnalysisService.get_prediction_rate_by_county(county_level_results)
+predictiveness_analysis_service = PredictivenessAnalysisService(election_result_repository)
+predictiveness_results = predictiveness_analysis_service.get_prediction_rate_by_county(county_level_results)
 write_predictiveness_analysis(predictiveness_results, get_result_output_path())

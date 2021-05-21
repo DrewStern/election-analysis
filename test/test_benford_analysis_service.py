@@ -7,7 +7,7 @@ from src.election_result import ElectionResult
 
 class BenfordAnalysisServiceTestCase(unittest.TestCase):
     def setUp(self):
-        self.mock_election_result_data = [
+        self.mock_election_results = [
             ElectionResult(["1993", "MO", "Fake Candidate 1", "Fake Party 1", "120", "21000000", "County 1"]),
             ElectionResult(["1993", "MO", "Fake Candidate 1", "Fake Party 1", "151", "21000000", "County 2"]),
             ElectionResult(["1993", "MO", "Fake Candidate 1", "Fake Party 1", "151", "21000000", "County 3"]),
@@ -34,7 +34,7 @@ class BenfordAnalysisServiceTestCase(unittest.TestCase):
     def test_calculate_benford_distribution(self):
         expected_benford_distribution = [33.33, 33.33, 0, 0, 0, 0, 0, 0, 33.33]
         actual_benford_distribution = self.benford_analysis_service.calculate_benford_distribution(
-            self.mock_election_result_data)
+            self.mock_election_results)
         self.assertEqual(expected_benford_distribution, actual_benford_distribution)
 
 

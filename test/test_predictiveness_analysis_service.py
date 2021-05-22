@@ -103,6 +103,27 @@ class PredictivenessAnalysisServiceTestCase(unittest.TestCase):
         # self.assertEqual(expected_prediction_rate_by_county["County 2,FK"], actual_prediction_rate_by_county["County 2,FK"])
         self.assertEqual(expected_prediction_rate_by_county["County 3,FK"], actual_prediction_rate_by_county["County 3,FK"])
 
+    def test_find_counties_predictive_of_winner(self):
+        prediction_rate_by_county = dict()
+        prediction_rate_by_county["County 1,FK"] = 1.0
+        prediction_rate_by_county["County 2,FK"] = 0.5
+        prediction_rate_by_county["County 3,FK"] = 0.0
+        prediction_rate_by_county["County 4,FK"] = 1.0
+        prediction_rate_by_county["County 5,FK"] = 0.0
+        expected_counties_predictive_of_winner = ["County 1,FK", "County 4,FK"]
+        actual_counties_predictive_of_winner = self.mock_predictiveness_analysis_service.find_counties_predictive_of_winner(prediction_rate_by_county)
+        self.assertEqual(expected_counties_predictive_of_winner, actual_counties_predictive_of_winner)
+
+    def test_find_counties_predictive_of_loser(self):
+        prediction_rate_by_county = dict()
+        prediction_rate_by_county["County 1,FK"] = 1.0
+        prediction_rate_by_county["County 2,FK"] = 0.5
+        prediction_rate_by_county["County 3,FK"] = 0.0
+        prediction_rate_by_county["County 4,FK"] = 1.0
+        prediction_rate_by_county["County 5,FK"] = 0.0
+        expected_counties_predictive_of_loser = ["County 3,FK", "County 5,FK"]
+        actual_counties_predictive_of_loser = self.mock_predictiveness_analysis_service.find_counties_predictive_of_loser(prediction_rate_by_county)
+        self.assertEqual(expected_counties_predictive_of_loser, actual_counties_predictive_of_loser)
 
 if __name__ == '__main__':
     unittest.main()

@@ -25,7 +25,7 @@ class PredictivenessAnalysisService:
                 election_years.append(election_result.year)
         return len(election_years)
 
-    def get_locale_election_winner_by_year(self, election_results, year, county, state):
+    def get_election_winner(self, election_results, year, county, state):
         locale_election_candidate_results = []
         for election_result in election_results:
             if election_result.is_from_election(year, county, state):

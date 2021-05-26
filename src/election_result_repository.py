@@ -3,8 +3,12 @@ from src.election_result import ElectionResult
 
 
 class ElectionResultRepository:
-    def get_election_results(self, data_file_path):
-        with open(data_file_path) as csvfile:
+    # TODO: one day may want to read this from a db instead of csv files
+    def __init__(self, data_path=""):
+        self.data_path = data_path
+
+    def get_election_results(self):
+        with open(self.data_path) as csvfile:
             election_results = []
             for row in csv.reader(csvfile):
                 election_results.append(ElectionResult(row))

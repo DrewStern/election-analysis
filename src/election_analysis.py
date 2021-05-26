@@ -4,10 +4,11 @@ from pathlib import Path
 
 from src.benford_analysis_service import BenfordAnalysisService
 from src.election_result_repository import ElectionResultRepository
-from src.predictiveness_analysis_service import PredictivenessAnalysisService
+from src.election_result_service import ElectionResultService
+from src.prediction_analysis_service import PredictionAnalysisService
 
 
-def write_predictiveness_analysis(get_prediction_rate_by_county, output_path):
+def write_prediction_analysis(get_prediction_rate_by_county, output_path):
     with open(output_path, 'w') as csvfile:
         csvfile.write("COUNTY,PREDICTION_RATE\n")
         for prediction_rate_by_county in get_prediction_rate_by_county.items():
@@ -54,13 +55,14 @@ def get_root_directory():
     return str(Path(os.path.realpath(__file__)).parent.parent) + "\\"
 
 
-election_result_repository = ElectionResultRepository()
-county_level_results = election_result_repository.get_election_results(read_presidential_votes_county_data())
+election_result_repository = ElectionResultRepository(read_presidential_votes_county_data())
+election_result_service = ElectionResultService(election_result_repository)
+county_level_results = election_result_service.get_election_results()
 
 benford_analysis_service = BenfordAnalysisService()
 benford_distribution = benford_analysis_service.calculate_benford_distribution(county_level_results)
 write_benford_analysis(benford_distribution, get_result_output_path())
 
-predictiveness_analysis_service = PredictivenessAnalysisService(election_result_repository)
-predictiveness_results = predictiveness_analysis_service.get_prediction_rate_by_county(county_level_results)
-write_predictiveness_analysis(predictiveness_results, get_result_output_path())
+prediction_analysis_service = PredictionAnalysisService(election_result_service)
+prediction_results = prediction_analysis_service.get_prediction_rate_by_county(county_level_results)
+write_prediction_analysis(prediction_results, get_result_output_path())

@@ -3,16 +3,11 @@ from src.election_result import ElectionResult
 
 
 class ElectionResultRepository:
-    def get_election_results(self, data_file_path, only_major_party_results=True):
+    def get_election_results(self, data_file_path):
         with open(data_file_path) as csvfile:
             election_results = []
             for row in csv.reader(csvfile):
-                election_result = ElectionResult(row)
-                if election_result.is_not_valid():
-                    continue
-                if only_major_party_results and election_result.is_not_major_party():
-                    continue
-                election_results.append(election_result)
+                election_results.append(ElectionResult(row))
             csvfile.close()
             election_results.pop(0)  # remove the header row
             return election_results

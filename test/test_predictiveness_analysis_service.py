@@ -74,51 +74,47 @@ class PredictivenessAnalysisServiceTestCase(unittest.TestCase):
         self.predictiveness_analysis_service = PredictivenessAnalysisService(self.mock_election_result_repository)
 
     def test_get_election_winner(self):
-        expected_county_election_winner_by_year = "Fake Candidate 2"
-        actual_county_election_winner_by_year = self.predictiveness_analysis_service.get_election_winner(
-            self.mock_election_results, "1993", "County 3", "MO")
-        self.assertEqual(expected_county_election_winner_by_year, actual_county_election_winner_by_year)
+        expected = "Fake Candidate 2"
+        actual = self.predictiveness_analysis_service.get_election_winner(self.mock_election_results, "1993", "County 3", "MO")
+        self.assertEqual(expected, actual)
 
-        expected_county_election_winner_by_year = "Fake Candidate 1"
-        actual_county_election_winner_by_year = self.predictiveness_analysis_service.get_election_winner(
-            self.mock_election_results, "1997", "County 1", "FK")
-        self.assertEqual(expected_county_election_winner_by_year, actual_county_election_winner_by_year)
+        expected = "Fake Candidate 1"
+        actual = self.predictiveness_analysis_service.get_election_winner(self.mock_election_results, "1997", "County 1", "FK")
+        self.assertEqual(expected, actual)
 
-        expected_county_election_winner_by_year = "Fake Candidate 2"
-        actual_county_election_winner_by_year = self.predictiveness_analysis_service.get_election_winner(
-            self.mock_election_results, "2001", "County 2", "MO")
-        self.assertEqual(expected_county_election_winner_by_year, actual_county_election_winner_by_year)
+        expected = "Fake Candidate 2"
+        actual = self.predictiveness_analysis_service.get_election_winner(self.mock_election_results, "2001", "County 2", "MO")
+        self.assertEqual(expected, actual)
 
-        expected_county_election_winner_by_year = "Fake Candidate 2"
-        actual_county_election_winner_by_year = self.predictiveness_analysis_service.get_election_winner(
-            self.mock_election_results, "2005", "County 3", "FK")
-        self.assertEqual(expected_county_election_winner_by_year, actual_county_election_winner_by_year)
+        expected = "Fake Candidate 2"
+        actual = self.predictiveness_analysis_service.get_election_winner(self.mock_election_results, "2005", "County 3", "FK")
+        self.assertEqual(expected, actual)
 
     def test_get_prediction_rate_by_county(self):
-        expected_prediction_rate_by_county = dict()
-        expected_prediction_rate_by_county["County 1,MO"] = 0.0
-        expected_prediction_rate_by_county["County 2,MO"] = 0.0
-        expected_prediction_rate_by_county["County 3,MO"] = 0.0
-        expected_prediction_rate_by_county["County 1,FK"] = 1.0
-        expected_prediction_rate_by_county["County 2,FK"] = 1.0
-        expected_prediction_rate_by_county["County 3,FK"] = 0.0
-        actual_prediction_rate_by_county = self.predictiveness_analysis_service.get_prediction_rate_by_county(self.mock_election_results)
-        self.assertEqual(expected_prediction_rate_by_county["County 1,MO"], actual_prediction_rate_by_county["County 1,MO"])
-        self.assertEqual(expected_prediction_rate_by_county["County 2,MO"], actual_prediction_rate_by_county["County 2,MO"])
-        self.assertEqual(expected_prediction_rate_by_county["County 3,MO"], actual_prediction_rate_by_county["County 3,MO"])
-        # self.assertEqual(expected_prediction_rate_by_county["County 1,FK"], actual_prediction_rate_by_county["County 1,FK"])
-        # self.assertEqual(expected_prediction_rate_by_county["County 2,FK"], actual_prediction_rate_by_county["County 2,FK"])
-        self.assertEqual(expected_prediction_rate_by_county["County 3,FK"], actual_prediction_rate_by_county["County 3,FK"])
+        expected = dict()
+        expected["County 1,MO"] = 0.0
+        expected["County 2,MO"] = 0.0
+        expected["County 3,MO"] = 0.0
+        expected["County 1,FK"] = 1.0
+        expected["County 2,FK"] = 1.0
+        expected["County 3,FK"] = 0.0
+        actual = self.predictiveness_analysis_service.get_prediction_rate_by_county(self.mock_election_results)
+        self.assertEqual(expected["County 1,MO"], actual["County 1,MO"])
+        self.assertEqual(expected["County 2,MO"], actual["County 2,MO"])
+        self.assertEqual(expected["County 3,MO"], actual["County 3,MO"])
+        # self.assertEqual(expected["County 1,FK"], actual["County 1,FK"])
+        # self.assertEqual(expected["County 2,FK"], actual["County 2,FK"])
+        self.assertEqual(expected["County 3,FK"], actual["County 3,FK"])
 
     def test_find_counties_predictive_of_winner(self):
-        expected_counties_predictive_of_winner = ["County 1,FK", "County 4,FK"]
-        actual_counties_predictive_of_winner = self.predictiveness_analysis_service.find_counties_predictive_of_winner(self.mock_prediction_rate_by_county)
-        self.assertEqual(expected_counties_predictive_of_winner, actual_counties_predictive_of_winner)
+        expected = ["County 1,FK", "County 4,FK"]
+        actual = self.predictiveness_analysis_service.find_counties_predictive_of_winner(self.mock_prediction_rate_by_county)
+        self.assertEqual(expected, actual)
 
     def test_find_counties_predictive_of_loser(self):
-        expected_counties_predictive_of_loser = ["County 3,FK", "County 5,FK"]
-        actual_counties_predictive_of_loser = self.predictiveness_analysis_service.find_counties_predictive_of_loser(self.mock_prediction_rate_by_county)
-        self.assertEqual(expected_counties_predictive_of_loser, actual_counties_predictive_of_loser)
+        expected = ["County 3,FK", "County 5,FK"]
+        actual = self.predictiveness_analysis_service.find_counties_predictive_of_loser(self.mock_prediction_rate_by_county)
+        self.assertEqual(expected, actual)
 
 if __name__ == '__main__':
     unittest.main()

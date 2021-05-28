@@ -33,16 +33,18 @@ class ElectionResultService:
             filtered_results.append(election_result)
         return filtered_results
 
-    # TODO: need to guard against KeyError in the event that consumer supplies invalid key
     def get_nationally_winning_candidate_by_year(self, year):
-        return self.get_nationally_winning_candidates_by_year()[year]
+        if year in self.get_nationally_winning_candidates_by_year().keys():
+            return self.get_nationally_winning_candidates_by_year()[year]
+        return "Unknown"
 
     def get_nationally_winning_candidates_by_year(self):
         return self.election_result_repository.find_nationally_winning_candidates_by_year()
 
-    # TODO: need to guard against KeyError in the event that consumer supplies invalid key
     def get_nationally_losing_candidate_by_year(self, year):
-        return self.get_nationally_losing_candidates_by_year()[year]
+        if year in self.get_nationally_losing_candidates_by_year().keys():
+            return self.get_nationally_losing_candidates_by_year()[year]
+        return "Unknown"
 
     def get_nationally_losing_candidates_by_year(self):
         return self.election_result_repository.find_nationally_losing_candidates_by_year()

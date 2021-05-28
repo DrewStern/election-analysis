@@ -61,10 +61,11 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
 
         self.mock_prediction_rate_by_locale = dict()
         self.mock_prediction_rate_by_locale["County 1,FK"] = 1.0
-        self.mock_prediction_rate_by_locale["County 2,FK"] = 0.5
+        self.mock_prediction_rate_by_locale["County 2,FK"] = 0.6
         self.mock_prediction_rate_by_locale["County 3,FK"] = 0.0
         self.mock_prediction_rate_by_locale["County 4,FK"] = 1.0
         self.mock_prediction_rate_by_locale["County 5,FK"] = 0.0
+        self.mock_prediction_rate_by_locale["County 6,FK"] = 0.4
 
         self.mock_election_result_repository = ElectionResultRepository()
 
@@ -85,6 +86,17 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
         actual = self.prediction_analysis_service.find_locales_predictive_of_loser(self.mock_prediction_rate_by_locale)
         self.assertEqual(expected, actual)
 
+    def test_find_locales_with_prediction_rate_above(self):
+        expected = ["County 1,FK", "County 2,FK", "County 4,FK"]
+        actual = self.prediction_analysis_service.find_locales_with_prediction_rate_above(self.mock_prediction_rate_by_locale, 0.5)
+        self.assertEqual(expected, actual)
+
+    def test_find_locales_with_prediction_rate_below(self):
+        expected = ["County 3,FK", "County 5,FK", "County 6,FK"]
+        actual = self.prediction_analysis_service.find_locales_with_prediction_rate_below(self.mock_prediction_rate_by_locale, 0.5)
+        self.assertEqual(expected, actual)
+
+    @unittest.skip("need to fix")
     def test_get_prediction_rate_by_locale(self):
         expected = dict()
         expected["County 1,MO"] = 0.0

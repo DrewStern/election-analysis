@@ -11,6 +11,12 @@ class PredictionAnalysisService:
     def find_locales_predictive_of_loser(self, prediction_rate_by_locale):
         return [locale for locale in prediction_rate_by_locale if prediction_rate_by_locale[locale] == 0]
 
+    def find_locales_with_prediction_rate_above(self, prediction_rate_by_locale, prediction_rate_lower_cutoff):
+        return [locale for locale in prediction_rate_by_locale if prediction_rate_by_locale[locale] > prediction_rate_lower_cutoff]
+
+    def find_locales_with_prediction_rate_below(self, prediction_rate_by_locale, prediction_rate_upper_cutoff):
+        return [locale for locale in prediction_rate_by_locale if prediction_rate_by_locale[locale] < prediction_rate_upper_cutoff]
+
     def get_prediction_rate_by_locale(self, election_results):
         correct_predictions = self.sum_correct_predictions_by_locale(election_results)
         number_of_elections = len(self.election_result_service.get_election_years())

@@ -6,15 +6,18 @@ class ElectionResultRepository:
     # TODO: one day may want to read this from a db instead of csv files
     def __init__(self, data_path=""):
         self.data_path = data_path
+        self.cached_election_results = []
 
     def find_election_results(self):
+        if len(self.cached_election_results) > 0:
+            return self.cached_election_results
+
         with open(self.data_path) as csvfile:
-            election_results = []
             for row in csv.reader(csvfile):
-                election_results.append(ElectionResult(row))
+                self.cached_election_results.append(ElectionResult(row))
             csvfile.close()
-            election_results.pop(0)  # remove the header row
-            return election_results
+            self.cached_election_results.pop(0)  # remove the header row
+            return self.cached_election_results
 
     def find_nationally_winning_candidates_by_year(self):
         nationally_winning_candidates_by_year = dict()

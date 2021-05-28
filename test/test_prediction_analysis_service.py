@@ -67,14 +67,23 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
         self.mock_prediction_rate_by_locale["County 5,FK"] = 0.0
 
         self.mock_election_result_repository = ElectionResultRepository()
-        self.mock_election_result_repository.find_nationally_winning_candidates_by_year = mock.MagicMock(
-            self.mock_nationally_winning_candidates_by_year)
-        self.mock_election_result_repository.find_nationally_losing_candidates_by_year = mock.MagicMock(
-            self.mock_nationally_losing_candidates_by_year)
 
         self.mock_election_result_service = ElectionResultService(self.mock_election_result_repository)
         self.mock_election_result_service.get_election_results = mock.MagicMock(return_value=self.mock_election_results)
+        self.mock_election_result_service.get_nationally_winning_candidates_by_year = mock.MagicMock(return_value=self.mock_nationally_winning_candidates_by_year)
+        self.mock_election_result_service.get_nationally_losing_candidates_by_year = mock.MagicMock(return_value=self.mock_nationally_losing_candidates_by_year)
+
         self.prediction_analysis_service = PredictionAnalysisService(self.mock_election_result_service)
+
+    def test_find_locales_predictive_of_winner(self):
+        expected = ["County 1,FK", "County 4,FK"]
+        actual = self.prediction_analysis_service.find_locales_predictive_of_winner(self.mock_prediction_rate_by_locale)
+        self.assertEqual(expected, actual)
+
+    def test_find_locales_predictive_of_loser(self):
+        expected = ["County 3,FK", "County 5,FK"]
+        actual = self.prediction_analysis_service.find_locales_predictive_of_loser(self.mock_prediction_rate_by_locale)
+        self.assertEqual(expected, actual)
 
     def test_get_prediction_rate_by_locale(self):
         expected = dict()
@@ -92,14 +101,18 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
         # self.assertEqual(expected["County 2,FK"], actual["County 2,FK"])
         self.assertEqual(expected["County 3,FK"], actual["County 3,FK"])
 
-    def test_find_locales_predictive_of_winner(self):
-        expected = ["County 1,FK", "County 4,FK"]
-        actual = self.prediction_analysis_service.find_locales_predictive_of_winner(self.mock_prediction_rate_by_locale)
+    def test_sum_correct_predictions_by_locale(self):
+        pass
+
+    def test_was_prediction_correct(self):
+        election_result = ElectionResult(["1993", "MO", "Fake Candidate 1", "Fake Party 1", "120", "21000000", "County 1"])
+        expected = True
+        actual = self.prediction_analysis_service.was_prediction_correct(election_result)
         self.assertEqual(expected, actual)
 
-    def test_find_locales_predictive_of_loser(self):
-        expected = ["County 3,FK", "County 5,FK"]
-        actual = self.prediction_analysis_service.find_locales_predictive_of_loser(self.mock_prediction_rate_by_locale)
+        election_result = ElectionResult(["1993", "MO", "Fake Candidate 2", "Fake Party 2", "6900", "21000000", "County 1"])
+        expected = False
+        actual = self.prediction_analysis_service.was_prediction_correct(election_result)
         self.assertEqual(expected, actual)
 
 

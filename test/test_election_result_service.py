@@ -67,6 +67,18 @@ class ElectionResultServiceTestCase(unittest.TestCase):
         actual = self.mock_election_result_service.get_election_winner("2005", "County 3", "FK")
         self.assertEqual(expected, actual)
 
+        expected = "Unknown"
+        actual = self.mock_election_result_service.get_election_winner("nosuchyear", "County 3", "FK")
+        self.assertEqual(expected, actual)
+
+        expected = "Unknown"
+        actual = self.mock_election_result_service.get_election_winner("2005", "nosuchcounty", "FK")
+        self.assertEqual(expected, actual)
+
+        expected = "Unknown"
+        actual = self.mock_election_result_service.get_election_winner("2005", "County 3", "nosuchstate")
+        self.assertEqual(expected, actual)
+
 
 if __name__ == '__main__':
     unittest.main()

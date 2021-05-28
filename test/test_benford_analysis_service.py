@@ -1,5 +1,4 @@
 import unittest
-from unittest import mock
 
 from src.benford_analysis_service import BenfordAnalysisService
 from src.election_result import ElectionResult

@@ -1,6 +1,5 @@
 import unittest
 from unittest import mock
-from unittest.mock import Mock
 
 from src.election_result import ElectionResult
 from src.election_result_repository import ElectionResultRepository
@@ -60,23 +59,24 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
         self.mock_nationally_losing_candidates_by_year["2001"] = "Fake Candidate 2"
         self.mock_nationally_losing_candidates_by_year["2005"] = "Fake Candidate 2"
 
-        self.mock_prediction_rate_by_county = dict()
-        self.mock_prediction_rate_by_county["County 1,FK"] = 1.0
-        self.mock_prediction_rate_by_county["County 2,FK"] = 0.5
-        self.mock_prediction_rate_by_county["County 3,FK"] = 0.0
-        self.mock_prediction_rate_by_county["County 4,FK"] = 1.0
-        self.mock_prediction_rate_by_county["County 5,FK"] = 0.0
+        self.mock_prediction_rate_by_locale = dict()
+        self.mock_prediction_rate_by_locale["County 1,FK"] = 1.0
+        self.mock_prediction_rate_by_locale["County 2,FK"] = 0.5
+        self.mock_prediction_rate_by_locale["County 3,FK"] = 0.0
+        self.mock_prediction_rate_by_locale["County 4,FK"] = 1.0
+        self.mock_prediction_rate_by_locale["County 5,FK"] = 0.0
 
         self.mock_election_result_repository = ElectionResultRepository()
-        self.mock_election_result_repository.get_election_results = Mock(self.mock_election_results)
-        self.mock_election_result_repository.get_nationally_winning_candidates_by_year = mock.MagicMock(self.mock_nationally_winning_candidates_by_year)
-        self.mock_election_result_repository.get_nationally_losing_candidates_by_year = mock.MagicMock(self.mock_nationally_losing_candidates_by_year)
+        self.mock_election_result_repository.find_nationally_winning_candidates_by_year = mock.MagicMock(
+            self.mock_nationally_winning_candidates_by_year)
+        self.mock_election_result_repository.find_nationally_losing_candidates_by_year = mock.MagicMock(
+            self.mock_nationally_losing_candidates_by_year)
 
         self.mock_election_result_service = ElectionResultService(self.mock_election_result_repository)
-
+        self.mock_election_result_service.get_election_results = mock.MagicMock(return_value=self.mock_election_results)
         self.prediction_analysis_service = PredictionAnalysisService(self.mock_election_result_service)
 
-    def test_get_prediction_rate_by_county(self):
+    def test_get_prediction_rate_by_locale(self):
         expected = dict()
         expected["County 1,MO"] = 0.0
         expected["County 2,MO"] = 0.0
@@ -84,7 +84,7 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
         expected["County 1,FK"] = 1.0
         expected["County 2,FK"] = 1.0
         expected["County 3,FK"] = 0.0
-        actual = self.prediction_analysis_service.get_prediction_rate_by_county(self.mock_election_results)
+        actual = self.prediction_analysis_service.get_prediction_rate_by_locale(self.mock_election_results)
         self.assertEqual(expected["County 1,MO"], actual["County 1,MO"])
         self.assertEqual(expected["County 2,MO"], actual["County 2,MO"])
         self.assertEqual(expected["County 3,MO"], actual["County 3,MO"])
@@ -92,15 +92,16 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
         # self.assertEqual(expected["County 2,FK"], actual["County 2,FK"])
         self.assertEqual(expected["County 3,FK"], actual["County 3,FK"])
 
-    def test_find_counties_predictive_of_winner(self):
+    def test_find_locales_predictive_of_winner(self):
         expected = ["County 1,FK", "County 4,FK"]
-        actual = self.prediction_analysis_service.find_counties_predictive_of_winner(self.mock_prediction_rate_by_county)
+        actual = self.prediction_analysis_service.find_locales_predictive_of_winner(self.mock_prediction_rate_by_locale)
         self.assertEqual(expected, actual)
 
-    def test_find_counties_predictive_of_loser(self):
+    def test_find_locales_predictive_of_loser(self):
         expected = ["County 3,FK", "County 5,FK"]
-        actual = self.prediction_analysis_service.find_counties_predictive_of_loser(self.mock_prediction_rate_by_county)
+        actual = self.prediction_analysis_service.find_locales_predictive_of_loser(self.mock_prediction_rate_by_locale)
         self.assertEqual(expected, actual)
+
 
 if __name__ == '__main__':
     unittest.main()

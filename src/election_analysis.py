@@ -64,5 +64,5 @@ benford_distribution = benford_analysis_service.calculate_benford_distribution(c
 write_benford_analysis(benford_distribution, get_result_output_path())
 
 prediction_analysis_service = PredictionAnalysisService(election_result_service)
-prediction_results = prediction_analysis_service.get_prediction_rate_by_county(county_level_results)
+prediction_results = prediction_analysis_service.get_prediction_rate_by_locale(county_level_results)
 write_prediction_analysis(prediction_results, get_result_output_path())

@@ -1,6 +1,5 @@
 import unittest
 from unittest import mock
-from unittest.mock import Mock
 
 from src.election_result import ElectionResult
 from src.election_result_repository import ElectionResultRepository
@@ -48,12 +47,8 @@ class ElectionResultServiceTestCase(unittest.TestCase):
         ]
 
         self.mock_election_result_repository = ElectionResultRepository()
-        self.mock_election_result_repository.get_election_results = mock.MagicMock(self.mock_election_results)
-        # self.mock_election_result_repository.get_nationally_winning_candidates_by_year = mock.MagicMock(self.mock_nationally_winning_candidates_by_year)
-        # self.mock_election_result_repository.get_nationally_losing_candidates_by_year = mock.MagicMock(self.mock_nationally_losing_candidates_by_year)
-
         self.mock_election_result_service = ElectionResultService(self.mock_election_result_repository)
-        # self.mock_election_result_service.get_election_results = mock.MagicMock(self.mock_election_results)
+        self.mock_election_result_service.get_election_results = mock.MagicMock(return_value=self.mock_election_results)
 
     def test_get_election_winner(self):
         expected = "Fake Candidate 2"
@@ -71,3 +66,7 @@ class ElectionResultServiceTestCase(unittest.TestCase):
         expected = "Fake Candidate 2"
         actual = self.mock_election_result_service.get_election_winner("2005", "County 3", "FK")
         self.assertEqual(expected, actual)
+
+
+if __name__ == '__main__':
+    unittest.main()

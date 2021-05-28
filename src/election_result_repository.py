@@ -7,7 +7,7 @@ class ElectionResultRepository:
     def __init__(self, data_path=""):
         self.data_path = data_path
 
-    def get_election_results(self):
+    def find_election_results(self):
         with open(self.data_path) as csvfile:
             election_results = []
             for row in csv.reader(csvfile):
@@ -16,7 +16,7 @@ class ElectionResultRepository:
             election_results.pop(0)  # remove the header row
             return election_results
 
-    def get_nationally_winning_candidates_by_year(self):
+    def find_nationally_winning_candidates_by_year(self):
         nationally_winning_candidates_by_year = dict()
         nationally_winning_candidates_by_year["2000"] = "George W. Bush"
         nationally_winning_candidates_by_year["2004"] = "George W. Bush"
@@ -26,7 +26,7 @@ class ElectionResultRepository:
         nationally_winning_candidates_by_year["2020"] = "Joe Biden"
         return nationally_winning_candidates_by_year
 
-    def get_nationally_losing_candidates_by_year(self):
+    def find_nationally_losing_candidates_by_year(self):
         nationally_losing_candidates_by_year = dict()
         nationally_losing_candidates_by_year["2000"] = "Al Gore"
         nationally_losing_candidates_by_year["2004"] = "John Kerry"

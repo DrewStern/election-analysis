@@ -7,7 +7,7 @@ class ElectionResultService:
 
     def get_election_winner(self, year, county, state):
         election_ranking = self.get_election_ranking(year, county, state)
-        return election_ranking[0].candidate if len(election_ranking) > 0 else "Unknown"
+        return election_ranking[0] if len(election_ranking) > 0 else "Unknown"
 
     def get_election_ranking(self, year, county, state):
         election_ranking = []

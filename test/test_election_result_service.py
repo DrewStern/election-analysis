@@ -9,7 +9,7 @@ class ElectionResultServiceTestCase(unittest.TestCase):
         self.election_result_service = ElectionResultService(MockElectionResultRepository())
 
     def test_get_election_winner(self):
-        expected = "Fake Candidate 2"
+        expected = "Fake Candidate 3"
         actual = self.election_result_service.get_election_winner("1993", "County 3", "MO")
         self.assertEqual(expected, actual)
 
@@ -39,7 +39,7 @@ class ElectionResultServiceTestCase(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_get_election_ranking(self):
-        expected = ["Fake Candidate 2", "Fake Candidate 1"]
+        expected = ["Fake Candidate 3", "Fake Candidate 2", "Fake Candidate 1"]
         actual = self.election_result_service.get_election_ranking("1993", "County 3", "MO")
         self.assert_lists_equal(expected, actual)
 

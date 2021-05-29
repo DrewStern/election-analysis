@@ -1,7 +1,8 @@
 from src.election_result import ElectionResult
+from src.election_result_repository import ElectionResultRepository
 
 
-class MockElectionResultRepository:
+class MockElectionResultRepository(ElectionResultRepository):
     def get_election_results(self):
         return [
             ElectionResult(["1993", "MO", "Fake Candidate 1", "Democrat", "120", "21000000", "County 1"]),
@@ -12,6 +13,7 @@ class MockElectionResultRepository:
 
             ElectionResult(["1993", "MO", "Fake Candidate 1", "Democrat", "451", "21000000", "County 3"]),
             ElectionResult(["1993", "MO", "Fake Candidate 2", "Republican", "6900", "21000000", "County 3"]),
+            ElectionResult(["1993", "MO", "Fake Candidate 3", "Republican", "70000", "21000000", "County 3"]),
 
             ElectionResult(["1997", "FK", "Fake Candidate 1", "Democrat", "121111", "22000000", "County 1"]),
             ElectionResult(["1997", "FK", "Fake Candidate 2", "Republican", "1901", "22000000", "County 1"]),

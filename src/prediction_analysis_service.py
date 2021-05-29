@@ -25,13 +25,13 @@ class PredictionAnalysisService:
         return {locale: correct_predictions / number_of_elections for locale, correct_predictions in correct_predictions.items()}
 
     def sum_correct_predictions_by_locale(self, election_results):
-        locale_predictions = self.initialize_locale_dict(election_results, 0)
+        locale_predictions = self.init_locale_dict(election_results, 0)
         for election_result in election_results:
             if self.was_prediction_correct(election_result):
                 locale_predictions[election_result.locale] += 1
         return locale_predictions
 
-    def initialize_locale_dict(self, election_results, default_value):
+    def init_locale_dict(self, election_results, default_value):
         locale_dict = dict()
         for election_result in election_results:
             if locale_dict.get(election_result.locale) is None:

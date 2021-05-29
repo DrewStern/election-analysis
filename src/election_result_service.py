@@ -14,7 +14,7 @@ class ElectionResultService:
         for election_result in self.get_election_results():
             if election_result.is_from_election(year, county, state):
                 election_ranking.append(election_result)
-        return sorted(election_ranking, key=lambda x: int(x.candidatevotes), reverse=True)
+        return list(map(lambda x: x.candidate, sorted(election_ranking, key=lambda x: int(x.candidatevotes), reverse=True)))
 
     def get_election_years(self):
         election_years = []

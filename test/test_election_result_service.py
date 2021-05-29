@@ -68,6 +68,10 @@ class ElectionResultServiceTestCase(unittest.TestCase):
         actual = self.election_result_service.get_election_ranking("2005", "County 3", "NoSuchState")
         self.assertEqual(expected, actual)
 
+    def test_get_election_years(self):
+        expected = ["1993", "1997", "2001", "2005"]
+        actual = self.election_result_service.get_election_years()
+        self.assert_lists_equal(expected, actual)
 
     def test_get_nationally_winning_candidate_by_year(self):
         expected = "Fake Candidate 1"
@@ -77,7 +81,7 @@ class ElectionResultServiceTestCase(unittest.TestCase):
     def assert_lists_equal(self, list1, list2):
         self.assertEqual(len(list1), len(list2))
         for index in range(len(list1)):
-            self.assertEqual(list1[index], list2[index].candidate)
+            self.assertEqual(list1[index], list2[index])
 
 
 if __name__ == '__main__':

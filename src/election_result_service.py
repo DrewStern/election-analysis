@@ -25,7 +25,7 @@ class ElectionResultService:
 
     def get_election_results(self, only_valid_results=True, only_major_party_results=True):
         filtered_results = []
-        for election_result in self.election_result_repository.find_election_results():
+        for election_result in self.election_result_repository.get_election_results():
             if only_valid_results and election_result.is_not_valid():
                 continue
             if only_major_party_results and election_result.is_not_major_party():
@@ -34,17 +34,15 @@ class ElectionResultService:
         return filtered_results
 
     def get_nationally_winning_candidate_by_year(self, year):
-        if year in self.get_nationally_winning_candidates_by_year().keys():
-            return self.get_nationally_winning_candidates_by_year()[year]
-        return "Unknown"
+        winners_by_year = self.election_result_repository.get_nationally_winning_candidates_by_year()
+        return winners_by_year[year] if year in winners_by_year.keys() else "Unknown"
 
     def get_nationally_winning_candidates_by_year(self):
-        return self.election_result_repository.find_nationally_winning_candidates_by_year()
+        return self.election_result_repository.get_nationally_winning_candidates_by_year()
 
     def get_nationally_losing_candidate_by_year(self, year):
-        if year in self.get_nationally_losing_candidates_by_year().keys():
-            return self.get_nationally_losing_candidates_by_year()[year]
-        return "Unknown"
+        losers_by_year = self.election_result_repository.get_nationally_losing_candidates_by_year()
+        return losers_by_year[year] if year in losers_by_year.keys() else "Unknown"
 
     def get_nationally_losing_candidates_by_year(self):
-        return self.election_result_repository.find_nationally_losing_candidates_by_year()
+        return self.election_result_repository.get_nationally_losing_candidates_by_year()

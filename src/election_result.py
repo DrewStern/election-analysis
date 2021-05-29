@@ -14,13 +14,13 @@ class ElectionResult:
         return "year: " + self.year + "," + "state: " + self.state + "," + "candidate: " + self.candidate + "," + "candidatevotes: " + self.candidatevotes
 
     def is_valid(self):
-        return self.candidate != "" and self.candidatevotes != "NA"
+        return self.candidate != "" and self.candidatevotes.lower() != "na"
 
     def is_not_valid(self):
         return not self.is_valid()
 
     def is_major_party(self):
-        return self.party == "republican" or self.party == "democrat"
+        return self.party.lower() == "republican" or self.party.lower() == "democrat"
 
     def is_not_major_party(self):
         return not self.is_major_party()

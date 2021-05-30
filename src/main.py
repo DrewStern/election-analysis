@@ -59,8 +59,8 @@ election_result_repository = ElectionResultRepository(read_presidential_votes_co
 election_result_service = ElectionResultService(election_result_repository)
 county_level_results = election_result_service.get_election_results()
 
-benford_analysis_service = BenfordAnalysisService()
-benford_distribution = benford_analysis_service.calculate_benford_distribution(county_level_results)
+benford_analysis_service = BenfordAnalysisService(election_result_service)
+benford_distribution = benford_analysis_service.calculate_benford_distribution()
 write_benford_analysis(benford_distribution, get_result_output_path())
 
 prediction_analysis_service = PredictionAnalysisService(election_result_service)

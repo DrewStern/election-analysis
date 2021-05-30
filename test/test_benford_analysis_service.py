@@ -1,38 +1,17 @@
 import unittest
 
 from src.benford_analysis_service import BenfordAnalysisService
-from src.election_result import ElectionResult
+from src.election_result_service import ElectionResultService
+from src.mock.mock_election_result_repository import MockElectionResultRepository
 
 
 class BenfordAnalysisServiceTestCase(unittest.TestCase):
     def setUp(self):
-        self.mock_election_results = [
-            ElectionResult(["1993", "MO", "Fake Candidate 1", "Fake Party 1", "120", "21000000", "County 1"]),
-            ElectionResult(["1993", "MO", "Fake Candidate 1", "Fake Party 1", "151", "21000000", "County 2"]),
-            ElectionResult(["1993", "MO", "Fake Candidate 1", "Fake Party 1", "151", "21000000", "County 3"]),
-            ElectionResult(["1993", "MO", "Fake Candidate 2", "Fake Party 2", "1900", "21000000", "County 1"]),
-            ElectionResult(["1993", "MO", "Fake Candidate 2", "Fake Party 2", "1900", "21000000", "County 2"]),
-            ElectionResult(["1993", "MO", "Fake Candidate 2", "Fake Party 2", "1900", "21000000", "County 3"]),
-            ElectionResult(["1993", "MO", "Fake Candidate 3", "Fake Party 3", "9100", "21000000", "County 1"]),
-            ElectionResult(["1993", "MO", "Fake Candidate 3", "Fake Party 3", "9100", "21000000", "County 2"]),
-            ElectionResult(["1993", "MO", "Fake Candidate 3", "Fake Party 3", "9100", "21000000", "County 3"]),
-
-            ElectionResult(["1996", "FK", "Fake Candidate 1", "Fake Party 1", "921", "22000000", "County 1"]),
-            ElectionResult(["1996", "FK", "Fake Candidate 1", "Fake Party 1", "92321", "22000000", "County 2"]),
-            ElectionResult(["1996", "FK", "Fake Candidate 1", "Fake Party 1", "921", "22000000", "County 3"]),
-            ElectionResult(["1996", "FK", "Fake Candidate 2", "Fake Party 2", "2901", "22000000", "County 1"]),
-            ElectionResult(["1996", "FK", "Fake Candidate 2", "Fake Party 2", "2901", "22000000", "County 2"]),
-            ElectionResult(["1996", "FK", "Fake Candidate 2", "Fake Party 2", "2901", "22000000", "County 3"]),
-            ElectionResult(["1996", "FK", "Fake Candidate 3", "Fake Party 3", "2101", "22000000", "County 1"]),
-            ElectionResult(["1996", "FK", "Fake Candidate 3", "Fake Party 3", "2101", "22000000", "County 2"]),
-            ElectionResult(["1996", "FK", "Fake Candidate 3", "Fake Party 3", "2101", "22000000", "County 3"]),
-        ]
-
-        self.benford_analysis_service = BenfordAnalysisService()
+        self.benford_analysis_service = BenfordAnalysisService(ElectionResultService(MockElectionResultRepository()))
 
     def test_calculate_benford_distribution(self):
-        expected = [33.33, 33.33, 0, 0, 0, 0, 0, 0, 33.33]
-        actual = self.benford_analysis_service.calculate_benford_distribution(self.mock_election_results)
+        expected = [32, 0, 0, 24, 0, 32, 4, 0, 8]
+        actual = self.benford_analysis_service.calculate_benford_distribution()
         self.assertEqual(expected, actual)
 
 

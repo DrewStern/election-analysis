@@ -37,12 +37,6 @@ class ElectionResultService:
         winners_by_year = self.election_result_repository.get_nationally_winning_candidates_by_year()
         return winners_by_year[year] if year in winners_by_year.keys() else "Unknown"
 
-    def get_nationally_winning_candidates_by_year(self):
-        return self.election_result_repository.get_nationally_winning_candidates_by_year()
-
     def get_nationally_losing_candidate_by_year(self, year):
         losers_by_year = self.election_result_repository.get_nationally_losing_candidates_by_year()
         return losers_by_year[year] if year in losers_by_year.keys() else "Unknown"
-
-    def get_nationally_losing_candidates_by_year(self):
-        return self.election_result_repository.get_nationally_losing_candidates_by_year()

@@ -2,10 +2,10 @@ import datetime
 import os
 from pathlib import Path
 
-from src.benford_analysis_service import BenfordAnalysisService
-from src.election_result_repository import ElectionResultRepository
-from src.election_result_service import ElectionResultService
-from src.prediction_analysis_service import PredictionAnalysisService
+from src.services.benford_analysis_service import BenfordAnalysisService
+from src.repositories.election_result_repository import ElectionResultRepository
+from src.services.election_result_service import ElectionResultService
+from src.services.prediction_analysis_service import PredictionAnalysisService
 
 
 def write_prediction_analysis(get_prediction_rate_by_county, output_path):

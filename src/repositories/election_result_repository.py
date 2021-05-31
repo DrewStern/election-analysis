@@ -1,5 +1,5 @@
 import csv
-from src.election_result import ElectionResult
+from src.models.election_result import ElectionResult
 
 
 class ElectionResultRepository:

@@ -1,4 +1,4 @@
-from src.election_result_repository import ElectionResultRepository
+from src.repositories.election_result_repository import ElectionResultRepository
 
 
 class ElectionResultService:

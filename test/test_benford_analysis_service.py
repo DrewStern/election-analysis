@@ -1,8 +1,8 @@
 import unittest
 
-from src.benford_analysis_service import BenfordAnalysisService
-from src.election_result_service import ElectionResultService
-from src.mock.mock_election_result_repository import MockElectionResultRepository
+from src.services.benford_analysis_service import BenfordAnalysisService
+from src.services.election_result_service import ElectionResultService
+from src.repositories.mock_election_result_repository import MockElectionResultRepository
 
 
 class BenfordAnalysisServiceTestCase(unittest.TestCase):

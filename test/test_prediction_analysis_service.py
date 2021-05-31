@@ -1,9 +1,9 @@
 import unittest
 
-from src.election_result import ElectionResult
-from src.election_result_service import ElectionResultService
-from src.mock.mock_election_result_repository import MockElectionResultRepository
-from src.prediction_analysis_service import PredictionAnalysisService
+from src.models.election_result import ElectionResult
+from src.services.election_result_service import ElectionResultService
+from src.repositories.mock_election_result_repository import MockElectionResultRepository
+from src.services.prediction_analysis_service import PredictionAnalysisService
 
 
 class PredictionAnalysisServiceTestCase(unittest.TestCase):

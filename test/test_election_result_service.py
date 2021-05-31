@@ -1,7 +1,7 @@
 import unittest
 
-from src.election_result_service import ElectionResultService
-from src.mock.mock_election_result_repository import MockElectionResultRepository
+from src.services.election_result_service import ElectionResultService
+from src.repositories.mock_election_result_repository import MockElectionResultRepository
 
 
 class ElectionResultServiceTestCase(unittest.TestCase):

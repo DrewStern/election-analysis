@@ -4,6 +4,7 @@ from src.services.election_result_service import ElectionResultService
 class BenfordAnalysisService:
     def __init__(self, election_result_service: ElectionResultService):
         self.election_result_service = election_result_service
+        self.expected_distribution = [30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6]
 
     def calculate_benford_distribution(self):
         leading_digit_occurrences = 9 * [0]

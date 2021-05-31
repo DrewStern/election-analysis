@@ -15,7 +15,7 @@ class MainTestCase(unittest.TestCase):
         self.benford_analysis_service = BenfordAnalysisService(election_result_service)
 
     def test_overall_benford_distribution(self):
-        # for now this is just a copy/paste of the output, need to double check vs expected distribution
+        # for now this is just a copy/paste of the output, need to double check vs expected distribution +/- some tolerances
         expected = [28.79, 17.83, 13.07, 10.37, 8.27, 6.7, 5.6, 4.98, 4.38]
         actual = self.benford_analysis_service.calculate_benford_distribution()
         self.assertEqual(expected, actual)

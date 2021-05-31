@@ -11,10 +11,9 @@ class PredictionAnalysisService:
     def find_locales_with_prediction_rate_below(self, prediction_rate_by_locale, prediction_rate_upper_cutoff):
         return [locale for locale in prediction_rate_by_locale if prediction_rate_by_locale[locale] <= prediction_rate_upper_cutoff]
 
-    # TODO: in progress
     def get_locale_prediction_ranking(self, election_results):
         prediction_rate_by_locale = self.get_prediction_rate_by_locale(election_results)
-        return sorted(prediction_rate_by_locale, key=lambda x: x.values())
+        return list(map(lambda outer: outer[0], sorted(prediction_rate_by_locale.items(), key=lambda inner: inner[1], reverse=True)))
 
     def get_prediction_rate_by_locale(self, election_results):
         correct_predictions = self.sum_correct_predictions_by_locale(election_results)

@@ -21,7 +21,7 @@ class ElectionResultServiceTestCase(unittest.TestCase):
         actual = self.election_result_service.get_election_winner("2001", "County 2", "MO")
         self.assertEqual(expected, actual)
 
-        expected = "Fake Candidate 2"
+        expected = "Fake Candidate 1"
         actual = self.election_result_service.get_election_winner("2005", "County 3", "FK")
         self.assertEqual(expected, actual)
 
@@ -51,7 +51,7 @@ class ElectionResultServiceTestCase(unittest.TestCase):
         actual = self.election_result_service.get_election_ranking("2001", "County 2", "MO")
         self.assert_lists_equal(expected, actual)
 
-        expected = ["Fake Candidate 2", "Fake Candidate 1"]
+        expected = ["Fake Candidate 1", "Fake Candidate 2"]
         actual = self.election_result_service.get_election_ranking("2005", "County 3", "FK")
         self.assert_lists_equal(expected, actual)
 

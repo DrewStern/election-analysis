@@ -24,7 +24,7 @@ class MockElectionResultRepository(ElectionResultRepository):
             ElectionResult(["1997", "FK", "Fake Candidate 1", "Democrat", "421", "22000000", "County 3"]),
             ElectionResult(["1997", "FK", "Fake Candidate 2", "Republican", "6901", "22000000", "County 3"]),
 
-            ElectionResult(["2001", "MO", "Fake Candidate 1", "Democrat", "120", "21000000", "County 1"]),
+            ElectionResult(["2001", "MO", "Fake Candidate 1", "Democrat", "11120", "21000000", "County 1"]),
             ElectionResult(["2001", "MO", "Fake Candidate 2", "Republican", "6900", "21000000", "County 1"]),
 
             ElectionResult(["2001", "MO", "Fake Candidate 1", "Democrat", "451", "21000000", "County 2"]),
@@ -39,7 +39,7 @@ class MockElectionResultRepository(ElectionResultRepository):
             ElectionResult(["2005", "FK", "Fake Candidate 1", "Democrat", "9901", "22000000", "County 2"]),
             ElectionResult(["2005", "FK", "Fake Candidate 2", "Republican", "12321", "22000000", "County 2"]),
 
-            ElectionResult(["2005", "FK", "Fake Candidate 1", "Democrat", "421", "22000000", "County 3"]),
+            ElectionResult(["2005", "FK", "Fake Candidate 1", "Democrat", "44421", "22000000", "County 3"]),
             ElectionResult(["2005", "FK", "Fake Candidate 2", "Republican", "6901", "22000000", "County 3"]),
         ]
 

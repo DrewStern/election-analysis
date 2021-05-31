@@ -45,28 +45,34 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_get_locale_prediction_ranking(self):
-        pass
+        expected = ["County 1,FK", "County 1,MO", "County 3,FK", "County 2,MO", "County 3,MO", "County 2,FK"]
+        actual = self.prediction_analysis_service.get_locale_prediction_ranking(self.mock_election_result_repository.get_election_results())
+        self.assertEqual(expected, actual)
 
     def test_get_prediction_rate_by_locale(self):
         expected = dict()
-        expected["County 1,MO"] = 0.0
+        # TODO: these values might be half of what you're expecting
+        # e.g., County1,FK has 1.0 prediction rate in the elections it's been in
+        # but it's only been in 0.5 of the elections (participation rate)
+        # so expected prediction rate = 0.5; likewise for all others
+        # this can be "fixed" by putting MO and FK for all election years
+        expected["County 1,MO"] = 0.25
         expected["County 2,MO"] = 0.0
         expected["County 3,MO"] = 0.0
-        # TODO: this should actually be 1.0 but requires adding test data for County 1,FK results in 1993 and 2001
         expected["County 1,FK"] = 0.5
         expected["County 2,FK"] = 0.0
-        expected["County 3,FK"] = 0.0
+        expected["County 3,FK"] = 0.25
         actual = self.prediction_analysis_service.get_prediction_rate_by_locale(self.mock_election_result_repository.get_election_results())
         self.assertEqual(expected, actual)
 
     def test_sum_correct_predictions_by_locale(self):
         expected = dict()
-        expected["County 1,MO"] = 0
+        expected["County 1,MO"] = 1
         expected["County 2,MO"] = 0
         expected["County 3,MO"] = 0
         expected["County 1,FK"] = 2
         expected["County 2,FK"] = 0
-        expected["County 3,FK"] = 0
+        expected["County 3,FK"] = 1
         actual = self.prediction_analysis_service.sum_correct_predictions_by_locale(self.mock_election_result_repository.get_election_results())
         self.assertEqual(expected, actual)
 

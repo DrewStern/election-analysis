@@ -1,3 +1,5 @@
+from functools import reduce
+
 from src.repositories.election_result_repository import ElectionResultRepository
 
 
@@ -10,25 +12,29 @@ class ElectionResultService:
         return election_ranking[0] if len(election_ranking) > 0 else "Unknown"
 
     def get_election_ranking(self, year, county, state):
-        election_ranking = []
-        for election_result in self.get_election_results():
-            if election_result.is_from_election(year, county, state):
-                election_ranking.append(election_result)
-        return list(map(lambda x: x.candidate, sorted(election_ranking, key=lambda x: int(x.candidatevotes), reverse=True)))
+        unordered_election_results = self.get_election_results(year_filter=year, county_filter=county, state_filter=state)
+        ordered_election_results = sorted(unordered_election_results, key=lambda x: int(x.candidatevotes), reverse=True)
+        return list(map(lambda x: x.candidate, ordered_election_results))
 
     def get_election_years(self):
-        election_years = []
-        for election_result in self.get_election_results():
-            if election_result.year not in election_years:
-                election_years.append(election_result.year)
-        return election_years
+        return list(sorted(set(map(lambda x: x.year, self.get_election_results()))))
 
-    def get_election_results(self, only_valid_results=True, only_major_party_results=True):
+    def get_election_results(self, year_filter=None, county_filter=None, state_filter=None, candidate_filter=None, party_filter=None):
         filtered_results = []
         for election_result in self.election_result_repository.get_election_results():
-            if only_valid_results and election_result.is_not_valid():
+            if election_result.is_not_valid():
                 continue
-            if only_major_party_results and election_result.is_not_major_party():
+            if election_result.is_not_major_party():
+                continue
+            if year_filter is not None and year_filter != election_result.year:
+                continue
+            if county_filter is not None and county_filter != election_result.county:
+                continue
+            if state_filter is not None and state_filter != election_result.state:
+                continue
+            if candidate_filter is not None and candidate_filter != election_result.candidate:
+                continue
+            if party_filter is not None and party_filter != election_result.party:
                 continue
             filtered_results.append(election_result)
         return filtered_results

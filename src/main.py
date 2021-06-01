@@ -35,12 +35,8 @@ def get_results_directory():
     return get_resources_directory() + "results\\"
 
 
-def read_presidential_votes_state_data_new():
+def read_presidential_votes_state_data():
     return get_resources_directory() + "working_data\\presidential-votes-by-state-1976-2020-working.csv"
-
-
-def read_presidential_votes_state_data_old():
-    return get_resources_directory() + "working_data\\presidential-votes-by-state-1976-2016-working.csv"
 
 
 def read_presidential_votes_county_data():
@@ -58,11 +54,14 @@ def get_root_directory():
 election_result_repository = ElectionResultRepository(read_presidential_votes_county_data())
 election_result_service = ElectionResultService(election_result_repository)
 county_level_results = election_result_service.get_election_results()
+# county_level_results = election_result_service.get_election_results(year_filter="2000")
+# print(list(map(lambda x: x.candidate, county_level_results)))
 
-benford_analysis_service = BenfordAnalysisService(election_result_service)
-print(benford_analysis_service.calculate_benford_distribution())
+# benford_analysis_service = BenfordAnalysisService(election_result_service)
+# print(benford_analysis_service.calculate_benford_distribution(election_result_service.get_election_results(candidate_filter="TRUMP, DONALD J.")))
+# print(benford_analysis_service.calculate_benford_distribution(election_result_service.get_election_results(candidate_filter="BIDEN, JOSEPH R. JR")))
 # write_benford_analysis(benford_distribution, get_result_output_path())
 
-# prediction_analysis_service = PredictionAnalysisService(election_result_service)
-# prediction_results = prediction_analysis_service.get_prediction_rate_by_locale(county_level_results)
-# write_prediction_analysis(prediction_results, get_result_output_path())
+prediction_analysis_service = PredictionAnalysisService(election_result_service)
+prediction_results = prediction_analysis_service.get_prediction_rate_by_locale(county_level_results)
+write_prediction_analysis(prediction_results, get_result_output_path())

@@ -21,7 +21,6 @@ class PredictionAnalysisService:
         if number_of_elections == 0:
             raise ZeroDivisionError("number_of_elections found to be zero")
         return {locale: correct_predictions / number_of_elections for locale, correct_predictions in correct_predictions.items()}
-        # return map(lambda x: x.keys() / number_of_elections, correct_predictions)
 
     def sum_correct_predictions_by_locale(self, election_results):
         tallied = []

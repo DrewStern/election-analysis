@@ -24,9 +24,3 @@ class ElectionResult:
 
     def is_not_major_party(self):
         return not self.is_major_party()
-
-    def is_from_election(self, year, county, state):
-        return self.year == year and self.county == county and self.state == state
-
-    def is_not_from_election(self, year, county, state):
-        return not self.is_from_election(year, county, state)

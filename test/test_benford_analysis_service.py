@@ -7,11 +7,12 @@ from src.repositories.mock_election_result_repository import MockElectionResultR
 
 class BenfordAnalysisServiceTestCase(unittest.TestCase):
     def setUp(self):
-        self.benford_analysis_service = BenfordAnalysisService(ElectionResultService(MockElectionResultRepository()))
+        self.mock_election_result_service = ElectionResultService(MockElectionResultRepository())
+        self.benford_analysis_service = BenfordAnalysisService(self.mock_election_result_service)
 
     def test_calculate_benford_distribution(self):
         expected = [32, 0, 0, 24, 0, 32, 4, 0, 8]
-        actual = self.benford_analysis_service.calculate_benford_distribution()
+        actual = self.benford_analysis_service.calculate_benford_distribution(self.mock_election_result_service.get_election_results())
         self.assertEqual(expected, actual)
 
 

@@ -1,13 +1,13 @@
 class ElectionResult:
-    def __init__(self, data):
-        self.year = data[0]
-        self.state = data[1]
-        self.candidate = data[2].replace(",", "")
-        self.party = data[3]
-        self.candidatevotes = data[4]
-        self.totalvotes = data[5]
-        if len(data) > 6:
-            self.county = data[6]
+    def __init__(self, year, state, candidate, party, candidatevotes, totalvotes, county=None):
+        self.year = year
+        self.state = state
+        self.candidate = candidate.replace(",", "")
+        self.party = party
+        self.candidatevotes = candidatevotes
+        self.totalvotes = totalvotes
+        if county is not None:
+            self.county = county
             self.locale = self.county + "," + self.state
 
     def __str__(self):

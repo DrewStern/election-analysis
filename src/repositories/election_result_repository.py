@@ -14,7 +14,7 @@ class ElectionResultRepository:
 
         with open(self.data_path) as csvfile:
             for row in csv.reader(csvfile):
-                self.cached_election_results.append(ElectionResult(row))
+                self.cached_election_results.append(ElectionResult(*row))
             csvfile.close()
             self.cached_election_results.pop(0)  # remove the header row
             return self.cached_election_results

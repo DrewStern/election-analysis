@@ -5,6 +5,7 @@ from pathlib import Path
 from src.services.benford_analysis_service import BenfordAnalysisService
 from src.repositories.election_result_repository import ElectionResultRepository
 from src.services.election_result_service import ElectionResultService
+from src.services.locality_result_service import LocalityResultService
 from src.services.prediction_analysis_service import PredictionAnalysisService
 
 
@@ -53,15 +54,17 @@ def get_root_directory():
 
 election_result_repository = ElectionResultRepository(read_presidential_votes_county_data())
 election_result_service = ElectionResultService(election_result_repository)
-county_level_results = election_result_service.get_election_results()
-# county_level_results = election_result_service.get_election_results(year_filter="2000")
-# print(list(map(lambda x: x.candidate, county_level_results)))
+locality_result_service = LocalityResultService(election_result_service)
+
+election_results = election_result_service.get_election_results()
+# election_results = election_result_service.get_election_results(year_filter="2000")
+# print(list(map(lambda x: x.candidate, election_results)))
 
 # benford_analysis_service = BenfordAnalysisService(election_result_service)
 # print(benford_analysis_service.calculate_benford_distribution(election_result_service.get_election_results(candidate_filter="TRUMP, DONALD J.")))
 # print(benford_analysis_service.calculate_benford_distribution(election_result_service.get_election_results(candidate_filter="BIDEN, JOSEPH R. JR")))
 # write_benford_analysis(benford_distribution, get_result_output_path())
 
-prediction_analysis_service = PredictionAnalysisService(election_result_service)
-prediction_results = prediction_analysis_service.get_prediction_rate_by_locale(county_level_results)
+prediction_analysis_service = PredictionAnalysisService(election_result_service, locality_result_service)
+prediction_results = prediction_analysis_service.get_prediction_rate_by_locale()
 write_prediction_analysis(prediction_results, get_result_output_path())

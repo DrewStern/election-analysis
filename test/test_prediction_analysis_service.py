@@ -2,10 +2,11 @@ import unittest
 
 from src.services.election_result_service import ElectionResultService
 from src.repositories.mock_election_result_repository import MockElectionResultRepository
+from src.services.locality_result_service import LocalityResultService
 from src.services.prediction_analysis_service import PredictionAnalysisService
 
 
-class PredictionAnalysisServiceTestCase(unittest.TestCase):
+class PredictionAnalysisServiceTestCases(unittest.TestCase):
     def setUp(self):
         self.mock_prediction_rate_by_locale = dict()
         self.mock_prediction_rate_by_locale["County 1,FK"] = 1.0
@@ -16,7 +17,9 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
         self.mock_prediction_rate_by_locale["County 6,FK"] = 0.4
 
         self.mock_election_result_repository = MockElectionResultRepository()
-        self.prediction_analysis_service = PredictionAnalysisService(ElectionResultService(self.mock_election_result_repository))
+        self.election_result_service = ElectionResultService(self.mock_election_result_repository)
+        self.locality_result_service = LocalityResultService(self.election_result_service)
+        self.prediction_analysis_service = PredictionAnalysisService(self.election_result_service, self.locality_result_service)
 
     def test_find_locales_with_prediction_rate_above(self):
         expected = ["County 1,FK", "County 2,FK", "County 3,FK", "County 4,FK", "County 5,FK", "County 6,FK"]
@@ -45,8 +48,8 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_get_locale_prediction_ranking(self):
-        expected = ["County 1,FK", "County 1,MO", "County 3,FK", "County 2,MO", "County 3,MO", "County 2,FK"]
-        actual = self.prediction_analysis_service.get_locale_prediction_ranking(self.mock_election_result_repository.get_election_results())
+        expected = ["County 1,FK", "County 1,MO", "County 2,MO", "County 3,FK", "County 2,FK", "County 3,MO"]
+        actual = self.prediction_analysis_service.get_locale_prediction_ranking()
         self.assertEqual(expected, actual)
 
     def test_get_prediction_rate_by_locale(self):
@@ -57,23 +60,23 @@ class PredictionAnalysisServiceTestCase(unittest.TestCase):
         # so expected prediction rate = 0.5; likewise for all others
         # this can be "fixed" by putting MO and FK for all election years
         expected["County 1,MO"] = 0.25
-        expected["County 2,MO"] = 0.0
+        expected["County 2,MO"] = 0.25
         expected["County 3,MO"] = 0.0
         expected["County 1,FK"] = 0.5
         expected["County 2,FK"] = 0.0
         expected["County 3,FK"] = 0.25
-        actual = self.prediction_analysis_service.get_prediction_rate_by_locale(self.mock_election_result_repository.get_election_results())
+        actual = self.prediction_analysis_service.get_prediction_rate_by_locale()
         self.assertEqual(expected, actual)
 
     def test_sum_correct_predictions_by_locale(self):
         expected = dict()
         expected["County 1,MO"] = 1
-        expected["County 2,MO"] = 0
+        expected["County 2,MO"] = 1
         expected["County 3,MO"] = 0
         expected["County 1,FK"] = 2
         expected["County 2,FK"] = 0
         expected["County 3,FK"] = 1
-        actual = self.prediction_analysis_service.sum_correct_predictions_by_locale(self.mock_election_result_repository.get_election_results())
+        actual = self.prediction_analysis_service.sum_correct_predictions_by_locale()
         self.assertEqual(expected, actual)
 
 

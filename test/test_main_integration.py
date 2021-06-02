@@ -6,13 +6,13 @@ from src.services.benford_analysis_service import BenfordAnalysisService
 from src.services.election_result_service import ElectionResultService
 
 
-class MainTestCase(unittest.TestCase):
+class MainIntegrationTestCases(unittest.TestCase):
     def setUp(self) -> None:
-        election_result_repository = ElectionResultRepository(read_presidential_votes_county_data())
-        election_result_service = ElectionResultService(election_result_repository)
-        county_level_results = election_result_service.get_election_results()
+        self.election_result_repository = ElectionResultRepository(read_presidential_votes_county_data())
+        self.election_result_service = ElectionResultService(self.election_result_repository)
+        county_level_results = self.election_result_service.get_election_results()
 
-        self.benford_analysis_service = BenfordAnalysisService(election_result_service)
+        self.benford_analysis_service = BenfordAnalysisService(self.election_result_service)
 
     def test_overall_benford_distribution(self):
         # for now this is just a copy/paste of the output, need to double check vs expected distribution +/- some tolerances

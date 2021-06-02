@@ -8,7 +8,7 @@ class MockElectionResultRepository(ElectionResultRepository):
             ElectionResult("1993", "MO", "Fake Candidate 1", "Democrat", "120", "21000000", "County 1"),
             ElectionResult("1993", "MO", "Fake Candidate 2", "Republican", "6900", "21000000", "County 1"),
 
-            ElectionResult("1993", "MO", "Fake Candidate 1", "Democrat", "451", "21000000", "County 2"),
+            ElectionResult("1993", "MO", "Fake Candidate 1", "Democrat", "44451", "21000000", "County 2"),
             ElectionResult("1993", "MO", "Fake Candidate 2", "Republican", "6900", "21000000", "County 2"),
 
             ElectionResult("1993", "MO", "Fake Candidate 1", "Democrat", "451", "21000000", "County 3"),

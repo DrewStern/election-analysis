@@ -1,5 +1,3 @@
-from functools import reduce
-
 from src.repositories.election_result_repository import ElectionResultRepository
 
 
@@ -7,14 +5,23 @@ class ElectionResultService:
     def __init__(self, election_result_repository: ElectionResultRepository):
         self.election_result_repository = election_result_repository
 
-    def get_election_winner(self, year, county, state):
-        election_ranking = self.get_election_ranking(year, county, state)
+    def get_winning_party_for_election(self, year, county, state):
+        election_ranking = self.get_party_ranking_for_election(year, county, state)
         return election_ranking[0] if len(election_ranking) > 0 else "Unknown"
 
-    def get_election_ranking(self, year, county, state):
-        unordered_election_results = self.get_election_results(year_filter=year, county_filter=county, state_filter=state)
-        ordered_election_results = sorted(unordered_election_results, key=lambda x: int(x.candidatevotes), reverse=True)
-        return list(map(lambda x: x.candidate, ordered_election_results))
+    def get_party_ranking_for_election(self, year, county, state):
+        return list(map(lambda x: x.party, self.get_ranked_election_results(year, county, state)))
+
+    def get_winning_candidate_for_election(self, year, county, state):
+        election_ranking = self.get_candidate_ranking_for_election(year, county, state)
+        return election_ranking[0] if len(election_ranking) > 0 else "Unknown"
+
+    def get_candidate_ranking_for_election(self, year, county, state):
+        return list(map(lambda x: x.candidate, self.get_ranked_election_results(year, county, state)))
+
+    def get_ranked_election_results(self, year, county, state):
+        unordered_results = self.get_election_results(year_filter=year, county_filter=county, state_filter=state)
+        return sorted(unordered_results, key=lambda x: int(x.candidatevotes), reverse=True)
 
     def get_election_years(self):
         return list(sorted(set(map(lambda x: x.year, self.get_election_results()))))

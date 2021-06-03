@@ -15,6 +15,16 @@ class LocalityResultService:
                 winning_party_history.append(winning_party)
         return winning_party_history
 
+    def get_winning_candidate_history_for_locality(self, locality):
+        winning_candidate_history = []
+        county = locality.split(',')[0]
+        state = locality.split(',')[1]
+        for year in self.election_result_service.get_election_years():
+            winning_party = self.election_result_service.get_winning_candidate_for_election(year, county, state)
+            if winning_party != "Unknown":
+                winning_candidate_history.append(winning_party)
+        return winning_candidate_history
+
     def get_counties_for_state(self, state):
         return list(sorted(set(map(lambda x: x.county, self.election_result_service.get_election_results(state_filter=state)))))
 

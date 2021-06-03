@@ -40,8 +40,7 @@ class BenfordAnalysisServiceTestCases(unittest.TestCase):
         # template_leading_digit_occurrences = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         # note: localities differ from how candidates work, because
         # there will be multiple candidates per locality, so we will have some double counting
-        # similar if we want to calculate benford distribution by years
-        # we have strict ordering
+        # similar if we want to calculate benford distribution by years; we have strict ordering
         # candidates < locality < year == [(candidate, party)] < [(county, state)] < year
 
 

@@ -20,8 +20,8 @@ class ElectionResultService:
         return list(map(lambda x: x.candidate, self.get_ranked_election_results(year, county, state)))
 
     def get_ranked_election_results(self, year, county, state):
-        unordered_results = self.get_election_results(year_filter=year, county_filter=county, state_filter=state)
-        return sorted(unordered_results, key=lambda x: int(x.candidatevotes), reverse=True)
+        unsorted_results = self.get_election_results(year_filter=year, county_filter=county, state_filter=state)
+        return sorted(unsorted_results, key=lambda x: int(x.candidatevotes), reverse=True)
 
     def get_election_years(self):
         return list(sorted(set(map(lambda x: x.year, self.get_election_results()))))

@@ -11,7 +11,7 @@ class ElectionResult:
             self.locale = self.county + "," + self.state
 
     def __str__(self):
-        return "year: " + self.year + "," + "state: " + self.state + "," + "candidate: " + self.candidate + "," + "candidatevotes: " + self.candidatevotes
+        return "{0}, {1}, {2}, {3}".format(self.year, self.locale, self.candidate, self.party)
 
     def is_valid(self):
         return self.candidate != "" and self.candidatevotes.lower() != "na"

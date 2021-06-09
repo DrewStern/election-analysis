@@ -8,7 +8,8 @@ from src.services.benford_analysis_service import BenfordAnalysisService
 
 class MainIntegrationTestCases(unittest.TestCase):
     def setUp(self) -> None:
-        self.election_result_repository = ElectionResultRepository(read_presidential_votes_county_data())
+        data_path = read_presidential_votes_county_data()
+        self.election_result_repository = ElectionResultRepository(data_path)
         self.election_result_service = ElectionResultService(self.election_result_repository)
         self.benford_analysis_service = BenfordAnalysisService(self.election_result_service)
 

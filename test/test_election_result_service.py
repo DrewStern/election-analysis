@@ -33,15 +33,15 @@ class ElectionResultServiceTestCases(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_get_winning_candidate_for_election_using_invalid_data(self):
-        expected = "Unknown"
+        expected = None
         actual = self.election_result_service.get_winning_candidate_for_election("NoSuchYear", "County 3", "FK")
         self.assertEqual(expected, actual)
 
-        expected = "Unknown"
+        expected = None
         actual = self.election_result_service.get_winning_candidate_for_election("2005", "NoSuchCounty", "FK")
         self.assertEqual(expected, actual)
 
-        expected = "Unknown"
+        expected = None
         actual = self.election_result_service.get_winning_candidate_for_election("2005", "County 3", "NoSuchState")
         self.assertEqual(expected, actual)
 

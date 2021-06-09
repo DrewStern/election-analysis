@@ -7,14 +7,14 @@ class ElectionResultService:
 
     def get_winning_party_for_election(self, year, county, state):
         election_ranking = self.get_party_ranking_for_election(year, county, state)
-        return election_ranking[0] if len(election_ranking) > 0 else "Unknown"
+        return election_ranking[0] if len(election_ranking) > 0 else None
 
     def get_party_ranking_for_election(self, year, county, state):
         return list(map(lambda x: x.party, self.get_ranked_election_results(year, county, state)))
 
     def get_winning_candidate_for_election(self, year, county, state):
         election_ranking = self.get_candidate_ranking_for_election(year, county, state)
-        return election_ranking[0] if len(election_ranking) > 0 else "Unknown"
+        return election_ranking[0] if len(election_ranking) > 0 else None
 
     def get_candidate_ranking_for_election(self, year, county, state):
         return list(map(lambda x: x.candidate, self.get_ranked_election_results(year, county, state)))
@@ -48,8 +48,8 @@ class ElectionResultService:
 
     def get_nationally_winning_candidate_by_year(self, year):
         winners_by_year = self.election_result_repository.get_nationally_winning_candidates_by_year()
-        return winners_by_year[year] if year in winners_by_year.keys() else "Unknown"
+        return winners_by_year[year] if year in winners_by_year.keys() else None
 
     def get_nationally_losing_candidate_by_year(self, year):
         losers_by_year = self.election_result_repository.get_nationally_losing_candidates_by_year()
-        return losers_by_year[year] if year in losers_by_year.keys() else "Unknown"
+        return losers_by_year[year] if year in losers_by_year.keys() else None

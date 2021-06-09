@@ -7,6 +7,8 @@ class BenfordAnalysisService:
         self.expected_distribution = [30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6]  # from Wikipedia
 
     def is_benford_distribution_within_tolerance(self, actual_distribution, percent_tolerance_from_expected):
+        if percent_tolerance_from_expected < 0:
+            raise ValueError("percent_tolerance_from_expected should be >= 0")
         if len(self.expected_distribution) != len(actual_distribution):
             return False
         for index in range(len(self.expected_distribution)):

@@ -22,10 +22,9 @@ class PredictionAnalysisService:
         correct_predictions = self.sum_correct_predictions_by_locale()
         number_of_elections = len(self.election_result_service.get_election_years())
         if number_of_elections == 0:
-            raise ZeroDivisionError("number_of_elections found to be zero")
+            raise ZeroDivisionError("number_of_elections should be > 0")
         return {locale: correct_predictions / number_of_elections for locale, correct_predictions in correct_predictions.items()}
 
-    # TODO: the performance of this method is very bad. improve it.
     def sum_correct_predictions_by_locale(self):
         years = self.election_result_service.get_election_years()
         localities = self.locality_result_service.get_localities()
@@ -33,7 +32,9 @@ class PredictionAnalysisService:
         for year in years:
             nation_winner = self.election_result_service.get_nationally_winning_candidate_by_year(year)
             for locality in localities:
-                county_winner = self.election_result_service.get_winning_candidate_for_election(year, locality.split(',')[0], locality.split(',')[1])
+                county = locality.split(',')[0]
+                state = locality.split(',')[1]
+                county_winner = self.election_result_service.get_winning_candidate_for_election(year, county, state)
                 if county_winner == nation_winner:
                     locale_predictions[locality] += 1
         return locale_predictions

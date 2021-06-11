@@ -11,14 +11,19 @@ class BenfordAnalysisService:
             raise ValueError("percent_tolerance_from_expected should be >= 0")
         if len(self.expected_distribution) != len(actual_distribution):
             return False
+        deviations = self.calculate_deviation_from_benford_distribution(actual_distribution)
+        for index in range(len(self.expected_distribution)):
+            if deviations[index] > percent_tolerance_from_expected:
+                return False
+        return True
+
+    def calculate_deviation_from_benford_distribution(self, actual_distribution):
+        deviations = []
         for index in range(len(self.expected_distribution)):
             expected = self.expected_distribution[index]
             actual = actual_distribution[index]
-            upper_limit = expected + (expected * percent_tolerance_from_expected / 100)
-            lower_limit = expected - (expected * percent_tolerance_from_expected / 100)
-            if not lower_limit <= actual <= upper_limit:
-                return False
-        return True
+            deviations.append(round(100 * abs(expected - actual) / expected, 2))
+        return deviations
 
     def calculate_benford_distribution(self, election_results):
         leading_digit_occurrences = 9 * [0]

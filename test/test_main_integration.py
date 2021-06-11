@@ -74,6 +74,19 @@ class MainIntegrationTestCases(unittest.TestCase):
         is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 17)
         self.assertTrue(is_within_tolerance)
 
+    def test_calculate_benford_distribution_by_party(self):
+        expected = [28.84, 18.84, 13.08, 10.35, 7.89, 6.45, 5.45, 4.71, 4.39]
+        actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(party_filter="Democrat"))
+        self.assertEqual(expected, actual)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 8)
+        self.assertTrue(is_within_tolerance)
+
+        expected = [28.74, 16.81, 13.07, 10.39, 8.66, 6.95, 5.76, 5.24, 4.37]
+        actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(party_filter="Republican"))
+        self.assertEqual(expected, actual)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 10)
+        self.assertTrue(is_within_tolerance)
+
     def test_calculate_benford_distribution_by_state(self):
         expected = [25.52, 19.14, 14.14, 8.45, 10.17, 6.03, 6.03, 5.0, 5.52]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(state_filter="CA"))

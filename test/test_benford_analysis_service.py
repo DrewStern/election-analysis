@@ -30,6 +30,24 @@ class BenfordAnalysisServiceTestCases(unittest.TestCase):
         is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(given_distribution, 10.86)
         self.assertFalse(is_within_tolerance)
 
+    def test_calculate_deviation_from_benford_distribution(self):
+        given_distribution = self.benford_analysis_service.expected_distribution
+        expected = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        actual = self.benford_analysis_service.calculate_deviation_from_benford_distribution(given_distribution)
+        self.assertEqual(expected, actual)
+
+        # given_distribution = 1.1 * expected_distribution
+        given_distribution = [33.11, 19.36, 13.75, 10.67, 8.69, 7.37, 6.38, 5.61, 5.06]
+        expected = [10, 10, 10, 10, 10, 10, 10, 10, 10]
+        actual = self.benford_analysis_service.calculate_deviation_from_benford_distribution(given_distribution)
+        self.assertEqual(expected, actual)
+
+        # given_distribution = 0.50 * expected_distribution
+        given_distribution = [15.05, 8.8, 6.25, 4.85, 3.95, 3.35, 2.9, 2.55, 2.3]
+        expected = [50, 50, 50, 50, 50, 50, 50, 50, 50]
+        actual = self.benford_analysis_service.calculate_deviation_from_benford_distribution(given_distribution)
+        self.assertEqual(expected, actual)
+
     def test_calculate_benford_distribution(self):
         expected = [32, 0, 0, 24, 0, 32, 4, 0, 8]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results())

@@ -33,15 +33,15 @@ class ElectionResultService:
                 continue
             if election_result.is_not_major_party():
                 continue
-            if year_filter is not None and year_filter != election_result.year:
+            if year_filter is not None and year_filter.lower() != election_result.year.lower():
                 continue
-            if county_filter is not None and county_filter != election_result.county:
+            if county_filter is not None and county_filter.lower() != election_result.county.lower():
                 continue
-            if state_filter is not None and state_filter != election_result.state:
+            if state_filter is not None and state_filter.lower() != election_result.state.lower():
                 continue
-            if candidate_filter is not None and candidate_filter != election_result.candidate:
+            if candidate_filter is not None and candidate_filter.lower() != election_result.candidate.lower():
                 continue
-            if party_filter is not None and party_filter != election_result.party:
+            if party_filter is not None and party_filter.lower() != election_result.party.lower():
                 continue
             filtered_results.append(election_result)
         return filtered_results

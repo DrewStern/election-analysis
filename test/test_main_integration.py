@@ -1,6 +1,8 @@
+import datetime
+import os
 import unittest
+from pathlib import Path
 
-from src.main import read_presidential_votes_county_data
 from src.repositories.election_result_repository import ElectionResultRepository
 from src.services.election_result_service import ElectionResultService
 from src.services.benford_analysis_service import BenfordAnalysisService
@@ -13,7 +15,7 @@ from src.services.benford_analysis_service import BenfordAnalysisService
 # Decrementing any of these parameters will cause the test to fail.
 class MainIntegrationTestCases(unittest.TestCase):
     def setUp(self) -> None:
-        data_path = read_presidential_votes_county_data()
+        data_path = self.read_presidential_votes_county_data()
         self.election_result_repository = ElectionResultRepository(data_path)
         self.election_result_service = ElectionResultService(self.election_result_repository)
         self.benford_analysis_service = BenfordAnalysisService(self.election_result_service)
@@ -160,6 +162,27 @@ class MainIntegrationTestCases(unittest.TestCase):
         self.assertEqual(expected, actual)
         is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 7)
         self.assertTrue(is_within_tolerance)
+
+    def get_result_output_path(self):
+        return self.get_results_directory() + "run-" + str(datetime.datetime.now()).replace(" ", "-").replace(":", "-") + ".csv"
+
+    def get_results_directory(self):
+        return self.get_resources_directory() + "results\\"
+
+    def read_presidential_votes_state_data(self):
+        return self.get_resources_directory() + "working_data\\presidential-votes-by-state-1976-2020-working.csv"
+
+    def read_presidential_votes_county_data(self):
+        return self.get_resources_directory() + "working_data\\presidential-votes-by-county-2000-2016-working.csv"
+
+    def get_resources_directory(self):
+        return self.get_test_directory() + "resources\\"
+
+    def get_test_directory(self):
+        return self.get_root_directory() + "test\\"
+
+    def get_root_directory(self):
+        return str(Path(os.path.realpath(__file__)).parent.parent) + "\\"
 
 
 if __name__ == '__main__':

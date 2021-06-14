@@ -13,7 +13,7 @@ from src.services.benford_analysis_service import BenfordAnalysisService
 # However, the unit tests WERE manually calculated and verified. Which lends weight to the validity of these results.
 # The tolerances supplied to is_within_tolerance throughout are the smallest integer such that the test passes.
 # Decrementing any of these parameters will cause the test to fail.
-class MainIntegrationTestCases(unittest.TestCase):
+class MitIntegrationTestCases(unittest.TestCase):
     def setUp(self) -> None:
         data_path = self.read_presidential_votes_county_data()
         self.election_result_repository = ElectionResultRepository(data_path)

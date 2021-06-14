@@ -252,6 +252,16 @@ class MitIntegrationTestCases(unittest.TestCase):
         is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 7)
         self.assertTrue(is_within_tolerance)
 
+        expected = [29.02, 17.21, 11.72, 9.55, 7.44, 6.15, 5.28, 5.0, 8.62]
+        actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(year_filter="2020"))
+        self.assertEqual(expected, actual)
+        expected_deviations = [3.59, 2.22, 6.24, 1.55, 5.82, 8.21, 8.97, 1.96, 87.39]
+        actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
+        self.assertEqual(expected_deviations, actual_deviations)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 88)
+        self.assertTrue(is_within_tolerance)
+
+
     def get_result_output_path(self):
         return self.get_results_directory() + "run-" + str(datetime.datetime.now()).replace(" ", "-").replace(":", "-") + ".csv"
 

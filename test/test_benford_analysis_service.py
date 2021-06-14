@@ -12,23 +12,22 @@ class BenfordAnalysisServiceTestCases(unittest.TestCase):
         self.election_result_service = ElectionResultService(self.mock_election_result_repository)
         self.benford_analysis_service = BenfordAnalysisService(self.election_result_service)
 
-    def test_is_benford_distribution_within_tolerance(self):
+    def test_get_maximum_deviation_from_benford_distribution(self):
         given_distribution = self.benford_analysis_service.expected_distribution
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(given_distribution, 0)
-        self.assertTrue(is_within_tolerance)
+        expected = 0
+        actual = self.benford_analysis_service.get_maximum_deviation_from_benford_distribution(given_distribution)
+        self.assertEqual(expected, actual)
 
         given_distribution = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(given_distribution, 100)
-        self.assertTrue(is_within_tolerance)
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(given_distribution, 99.99)
-        self.assertFalse(is_within_tolerance)
+        expected = 100
+        actual = self.benford_analysis_service.get_maximum_deviation_from_benford_distribution(given_distribution)
+        self.assertEqual(expected, actual)
 
         # given_distribution chosen arbitrarily, then tolerance chosen around that
         given_distribution = [30.0, 17.5, 12.9, 9.4, 7.8, 6.7, 5.5, 4.9, 4.1]
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(given_distribution, 10.87)
-        self.assertTrue(is_within_tolerance)
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(given_distribution, 10.86)
-        self.assertFalse(is_within_tolerance)
+        expected = 10.87
+        actual = self.benford_analysis_service.get_maximum_deviation_from_benford_distribution(given_distribution)
+        self.assertEqual(expected, actual)
 
     def test_calculate_deviation_from_benford_distribution(self):
         given_distribution = self.benford_analysis_service.expected_distribution

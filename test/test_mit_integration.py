@@ -261,7 +261,6 @@ class MitIntegrationTestCases(unittest.TestCase):
         is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 88)
         self.assertTrue(is_within_tolerance)
 
-
     def get_result_output_path(self):
         return self.get_results_directory() + "run-" + str(datetime.datetime.now()).replace(" ", "-").replace(":", "-") + ".csv"
 

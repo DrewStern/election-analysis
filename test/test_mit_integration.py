@@ -21,13 +21,13 @@ class MitIntegrationTestCases(unittest.TestCase):
         self.benford_analysis_service = BenfordAnalysisService(self.election_result_service)
 
     def test_calculate_benford_distribution(self):
-        expected = [28.79, 17.83, 13.07, 10.37, 8.27, 6.7, 5.6, 4.98, 4.38]
+        expected = [28.85, 17.68, 12.74, 10.17, 8.07, 6.57, 5.53, 4.98, 5.42]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results())
         self.assertEqual(expected, actual)
-        expected_deviations = [4.35, 1.31, 4.56, 6.91, 4.68, 0.0, 3.45, 2.35, 4.78]
+        expected_deviations = [4.15, 0.45, 1.92, 4.85, 2.15, 1.94, 4.66, 2.35, 17.83]
         actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
         self.assertEqual(expected_deviations, actual_deviations)
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 7)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 18)
         self.assertTrue(is_within_tolerance)
 
     def test_calculate_benford_distribution_by_candidate(self):
@@ -94,6 +94,7 @@ class MitIntegrationTestCases(unittest.TestCase):
         is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 13)
         self.assertTrue(is_within_tolerance)
 
+        # Note that this references Trump's 2016 results
         expected = [29.44, 16.03, 12.36, 10.23, 9.19, 6.88, 5.93, 5.54, 4.4]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(candidate_filter="Donald Trump"))
         self.assertEqual(expected, actual)
@@ -103,84 +104,103 @@ class MitIntegrationTestCases(unittest.TestCase):
         is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 17)
         self.assertTrue(is_within_tolerance)
 
-    def test_calculate_benford_distribution_by_party(self):
-        expected = [28.84, 18.84, 13.08, 10.35, 7.89, 6.45, 5.45, 4.71, 4.39]
-        actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(party_filter="Democrat"))
+        # Note that this references Trump's 2020 results
+        expected = [29.49, 17.31, 11.2, 9.11, 7.7, 6.23, 5.41, 5.02, 8.52]
+        actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(candidate_filter="Donald J Trump"))
         self.assertEqual(expected, actual)
-        expected_deviations = [4.19, 7.05, 4.64, 6.7, 0.13, 3.73, 6.03, 7.65, 4.57]
+        expected_deviations = [2.03, 1.65, 10.4, 6.08, 2.53, 7.01, 6.72, 1.57, 85.22]
         actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
         self.assertEqual(expected_deviations, actual_deviations)
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 8)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 86)
         self.assertTrue(is_within_tolerance)
 
-        expected = [28.74, 16.81, 13.07, 10.39, 8.66, 6.95, 5.76, 5.24, 4.37]
-        actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(party_filter="Republican"))
+        expected = [28.55, 17.11, 12.25, 9.99, 7.17, 6.07, 5.15, 4.98, 8.72]
+        actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(candidate_filter="Joseph R Biden Jr"))
         self.assertEqual(expected, actual)
-        expected_deviations = [4.52, 4.49, 4.56, 7.11, 9.62, 3.73, 0.69, 2.75, 5.0]
+        expected_deviations = [5.15, 2.78, 2.0, 2.99, 9.24, 9.4, 11.21, 2.35, 89.57]
         actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
         self.assertEqual(expected_deviations, actual_deviations)
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 10)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 90)
+        self.assertTrue(is_within_tolerance)
+
+    def test_calculate_benford_distribution_by_party(self):
+        expected = [28.77, 18.42, 12.88, 10.27, 7.71, 6.36, 5.37, 4.78, 5.45]
+        actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(party_filter="Democrat"))
+        self.assertEqual(expected, actual)
+        expected_deviations = [4.42, 4.66, 3.04, 5.88, 2.41, 5.07, 7.41, 6.27, 18.48]
+        actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
+        self.assertEqual(expected_deviations, actual_deviations)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 19)
+        self.assertTrue(is_within_tolerance)
+
+        expected = [28.92, 16.94, 12.61, 10.07, 8.43, 6.77, 5.68, 5.19, 5.39]
+        actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(party_filter="Republican"))
+        self.assertEqual(expected, actual)
+        expected_deviations = [3.92, 3.75, 0.88, 3.81, 6.71, 1.04, 2.07, 1.76, 17.17]
+        actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
+        self.assertEqual(expected_deviations, actual_deviations)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 18)
         self.assertTrue(is_within_tolerance)
 
     def test_calculate_benford_distribution_by_state(self):
-        expected = [25.52, 19.14, 14.14, 8.45, 10.17, 6.03, 6.03, 5.0, 5.52]
+        expected = [26.72, 18.82, 13.36, 9.48, 9.2, 7.04, 5.6, 4.89, 4.89]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(state_filter="CA"))
         self.assertEqual(expected, actual)
-        expected_deviations = [15.22, 8.75, 13.12, 12.89, 28.73, 10.0, 3.97, 1.96, 20.0]
+        expected_deviations = [11.23, 6.93, 6.88, 2.27, 16.46, 5.07, 3.45, 4.12, 6.3]
         actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
         self.assertEqual(expected_deviations, actual_deviations)
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 29)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 17)
         self.assertTrue(is_within_tolerance)
 
-        expected = [26.12, 19.7, 11.79, 11.64, 8.96, 8.21, 4.78, 5.22, 3.58]
+        expected = [26.37, 19.15, 12.06, 10.95, 8.58, 8.46, 5.47, 5.35, 3.61]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(state_filter="FL"))
         self.assertEqual(expected, actual)
-        expected_deviations = [13.22, 11.93, 5.68, 20.0, 13.42, 22.54, 17.59, 2.35, 22.17]
+        expected_deviations = [12.39, 8.81, 3.52, 12.89, 8.61, 26.27, 5.69, 4.9, 21.52]
         actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
         self.assertEqual(expected_deviations, actual_deviations)
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 23)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 27)
         self.assertTrue(is_within_tolerance)
 
-        expected = [28.63, 14.9, 14.41, 10.69, 9.9, 6.57, 4.41, 5.0, 5.49]
+        expected = [29.17, 15.28, 13.15, 11.11, 9.56, 7.03, 4.33, 4.9, 5.47]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(state_filter="IL"))
         self.assertEqual(expected, actual)
-        expected_deviations = [4.88, 15.34, 15.28, 10.21, 25.32, 1.94, 23.97, 1.96, 19.35]
+        expected_deviations = [3.09, 13.18, 5.2, 14.54, 21.01, 4.93, 25.34, 3.92, 18.91]
         actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
         self.assertEqual(expected_deviations, actual_deviations)
         is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 26)
         self.assertTrue(is_within_tolerance)
 
-        expected = [28.15, 19.0, 13.64, 12.35, 8.81, 5.87, 5.09, 2.59, 4.49]
+        expected = [28.2, 18.35, 14.24, 11.22, 8.85, 6.04, 5.4, 3.31, 4.39]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(state_filter="MO"))
         self.assertEqual(expected, actual)
-        expected_deviations = [6.48, 7.95, 9.12, 27.32, 11.52, 12.39, 12.24, 49.22, 2.39]
+        expected_deviations = [6.31, 4.26, 13.92, 15.67, 12.03, 9.85, 6.9, 35.1, 4.57]
         actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
         self.assertEqual(expected_deviations, actual_deviations)
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 50)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 36)
         self.assertTrue(is_within_tolerance)
 
-        expected = [38.06, 14.35, 8.87, 8.71, 7.1, 6.45, 4.84, 5.48, 6.13]
+        expected = [37.63, 14.38, 9.27, 8.2, 7.12, 6.45, 4.7, 5.65, 6.59]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(state_filter="NY"))
         self.assertEqual(expected, actual)
-        expected_deviations = [26.45, 18.47, 29.04, 10.21, 10.13, 3.73, 16.55, 7.45, 33.26]
+        expected_deviations = [25.02, 18.3, 25.84, 15.46, 9.87, 3.73, 18.97, 10.78, 43.26]
         actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
         self.assertEqual(expected_deviations, actual_deviations)
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 34)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 44)
         self.assertTrue(is_within_tolerance)
 
-        expected = [33.64, 12.5, 12.05, 9.43, 7.16, 8.98, 6.93, 5.11, 4.2]
+        expected = [33.62, 12.97, 12.12, 9.94, 7.48, 7.95, 6.63, 4.92, 4.36]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(state_filter="OH"))
         self.assertEqual(expected, actual)
-        expected_deviations = [11.76, 28.98, 3.6, 2.78, 9.37, 34.03, 19.48, 0.2, 8.7]
+        expected_deviations = [11.69, 26.31, 3.04, 2.47, 5.32, 18.66, 14.31, 3.53, 5.22]
         actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
         self.assertEqual(expected_deviations, actual_deviations)
-        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 35)
+        is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 27)
         self.assertTrue(is_within_tolerance)
 
-        expected = [29.41, 17.48, 13.03, 11.02, 7.91, 6.14, 5.51, 4.92, 4.57]
+        expected = [29.63, 17.39, 12.6, 10.99, 7.78, 6.3, 5.54, 5.18, 4.59]
         actual = self.benford_analysis_service.calculate_benford_distribution(self.election_result_service.get_election_results(state_filter="TX"))
         self.assertEqual(expected, actual)
-        expected_deviations = [2.29, 0.68, 4.24, 13.61, 0.13, 8.36, 5.0, 3.53, 0.65]
+        expected_deviations = [1.56, 1.19, 0.8, 13.3, 1.52, 5.97, 4.48, 1.57, 0.22]
         actual_deviations = self.benford_analysis_service.calculate_deviation_from_benford_distribution(actual)
         self.assertEqual(expected_deviations, actual_deviations)
         is_within_tolerance = self.benford_analysis_service.is_benford_distribution_within_tolerance(actual, 14)
@@ -242,7 +262,7 @@ class MitIntegrationTestCases(unittest.TestCase):
         return self.get_resources_directory() + "working_data\\presidential-votes-by-state-1976-2020-working.csv"
 
     def read_presidential_votes_county_data(self):
-        return self.get_resources_directory() + "working_data\\presidential-votes-by-county-2000-2016-working.csv"
+        return self.get_resources_directory() + "working_data\\presidential-votes-by-county-2000-2020-working.csv"
 
     def get_resources_directory(self):
         return self.get_test_directory() + "resources\\"

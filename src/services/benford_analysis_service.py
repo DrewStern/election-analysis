@@ -19,6 +19,8 @@ class BenfordAnalysisService:
 
     def calculate_deviation_from_benford_distribution(self, actual_distribution):
         deviations = []
+        if len(self.expected_distribution) != len(actual_distribution):
+            return False
         for index in range(len(self.expected_distribution)):
             expected = self.expected_distribution[index]
             actual = actual_distribution[index]

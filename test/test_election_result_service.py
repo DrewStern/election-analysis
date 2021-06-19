@@ -10,10 +10,38 @@ class ElectionResultServiceTestCases(unittest.TestCase):
         self.election_result_service = ElectionResultService(self.mock_election_result_repository)
 
     def test_get_winning_party_for_election(self):
-        pass
+        expected = "Republican"
+        actual = self.election_result_service.get_winning_party_for_election("1993", "County 3", "MO")
+        self.assertEqual(expected, actual)
+
+        expected = "Democrat"
+        actual = self.election_result_service.get_winning_party_for_election("1997", "County 1", "FK")
+        self.assertEqual(expected, actual)
+
+        expected = "Republican"
+        actual = self.election_result_service.get_winning_party_for_election("2001", "County 2", "MO")
+        self.assertEqual(expected, actual)
+
+        expected = "Democrat"
+        actual = self.election_result_service.get_winning_party_for_election("2005", "County 3", "FK")
+        self.assertEqual(expected, actual)
 
     def test_get_party_ranking_for_election(self):
-        pass
+        expected = ["Republican", "Republican", "Democrat"]
+        actual = self.election_result_service.get_party_ranking_for_election("1993", "County 3", "MO")
+        self.assertEqual(expected, actual)
+
+        expected = ["Democrat", "Republican"]
+        actual = self.election_result_service.get_party_ranking_for_election("1997", "County 1", "FK")
+        self.assertEqual(expected, actual)
+
+        expected = ["Republican", "Democrat"]
+        actual = self.election_result_service.get_party_ranking_for_election("2001", "County 2", "MO")
+        self.assertEqual(expected, actual)
+
+        expected = ["Democrat", "Republican"]
+        actual = self.election_result_service.get_party_ranking_for_election("2005", "County 3", "FK")
+        self.assertEqual(expected, actual)
 
     def test_get_winning_candidate_for_election(self):
         expected = "Fake Candidate 3"
@@ -32,19 +60,6 @@ class ElectionResultServiceTestCases(unittest.TestCase):
         actual = self.election_result_service.get_winning_candidate_for_election("2005", "County 3", "FK")
         self.assertEqual(expected, actual)
 
-    def test_get_winning_candidate_for_election_using_invalid_data(self):
-        expected = None
-        actual = self.election_result_service.get_winning_candidate_for_election("NoSuchYear", "County 3", "FK")
-        self.assertEqual(expected, actual)
-
-        expected = None
-        actual = self.election_result_service.get_winning_candidate_for_election("2005", "NoSuchCounty", "FK")
-        self.assertEqual(expected, actual)
-
-        expected = None
-        actual = self.election_result_service.get_winning_candidate_for_election("2005", "County 3", "NoSuchState")
-        self.assertEqual(expected, actual)
-
     def test_get_candidate_ranking_for_election(self):
         expected = ["Fake Candidate 3", "Fake Candidate 2", "Fake Candidate 1"]
         actual = self.election_result_service.get_candidate_ranking_for_election("1993", "County 3", "MO")
@@ -60,19 +75,6 @@ class ElectionResultServiceTestCases(unittest.TestCase):
 
         expected = ["Fake Candidate 1", "Fake Candidate 2"]
         actual = self.election_result_service.get_candidate_ranking_for_election("2005", "County 3", "FK")
-        self.assertEqual(expected, actual)
-
-    def test_get_candidate_ranking_for_election_using_invalid_data(self):
-        expected = []
-        actual = self.election_result_service.get_candidate_ranking_for_election("NoSuchYear", "County 3", "FK")
-        self.assertEqual(expected, actual)
-
-        expected = []
-        actual = self.election_result_service.get_candidate_ranking_for_election("2005", "NoSuchCounty", "FK")
-        self.assertEqual(expected, actual)
-
-        expected = []
-        actual = self.election_result_service.get_candidate_ranking_for_election("2005", "County 3", "NoSuchState")
         self.assertEqual(expected, actual)
 
     def test_get_ranked_election_results(self):

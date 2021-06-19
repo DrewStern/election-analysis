@@ -8,7 +8,7 @@ from src.services.election_result_service import ElectionResultService
 from src.services.benford_analysis_service import BenfordAnalysisService
 
 
-# The expected values here are basically just copy/paste of the service output.
+# The expected values here are just copy/paste of the service outputs. They should be considered as documentation.
 # I did not go through the data set to manually calculate and double check these values.
 # However, the unit tests WERE manually calculated and verified. Which lends weight to the validity of these results.
 class MitIntegrationTestCases(unittest.TestCase):

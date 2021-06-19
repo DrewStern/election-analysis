@@ -5,6 +5,22 @@ class LocalityResultService:
     def __init__(self, election_result_service: ElectionResultService):
         self.election_result_service = election_result_service
 
+    def get_bellwether_counties(self):
+        pass
+
+    def get_most_loyal_counties_by_party(self, party_filter):
+        pass
+
+    def get_least_loyal_counties_by_party(self, party_filter):
+        pass
+
+    def get_locality_loyalty_ranking_by_party(self):
+        locality_loyalty_ranking = dict.fromkeys(self.get_localities())
+        for year in self.election_result_service.get_election_years():
+            for locality in self.get_localities():
+                continue
+        return locality_loyalty_ranking
+
     def get_winning_party_history_for_locality(self, locality):
         winning_party_history = []
         county = locality.split(',')[0]

@@ -11,7 +11,7 @@ class BenfordAnalysisService:
         self.third_digit_benford_distribution = [10.2, 10.1, 10.1, 10.1, 10.0, 10.0, 9.9, 9.9, 9.9, 9.8]
 
     def get_maximum_deviation_from_benford_distribution(self, actual_distribution):
-        return max(filter(lambda x: type(x) is int or type(x) is float, self.calculate_deviation_from_benford_distribution(actual_distribution)))
+        return max(filter(lambda x: self.is_numeric_type(x), self.calculate_deviation_from_benford_distribution(actual_distribution)))
 
     def calculate_deviation_from_benford_distribution(self, actual_distribution):
         deviations = []
@@ -34,3 +34,6 @@ class BenfordAnalysisService:
             leading_digit = int(election_result.candidatevotes[digit_index])
             leading_digit_occurrences[leading_digit] += 1
         return [round(100 * int(x) / int(sum(leading_digit_occurrences)), 2) for x in leading_digit_occurrences]
+
+    def is_numeric_type(self, x):
+        return type(x) is int or type(x) is float

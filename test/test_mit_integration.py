@@ -786,10 +786,13 @@ class MitIntegrationTestCases(unittest.TestCase):
         return self.get_test_data_directory() + "results\\"
 
     def read_presidential_votes_state_data(self):
-        return self.get_test_data_directory() + "working\\presidential-votes-by-state-1976-2020.csv"
+        return self.get_working_test_data_directory() + "presidential-votes-by-state-1976-2020.csv"
 
     def read_presidential_votes_county_data(self):
-        return self.get_test_data_directory() + "working\\presidential-votes-by-county-2000-2020.csv"
+        return self.get_working_test_data_directory() + "presidential-votes-by-county-2000-2020.csv"
+
+    def get_working_test_data_directory(self):
+        return self.get_test_data_directory() + "working\\"
 
     def get_test_data_directory(self):
         return self.get_test_directory() + "data\\"

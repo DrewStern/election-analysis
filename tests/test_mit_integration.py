@@ -798,7 +798,7 @@ class MitIntegrationTestCases(unittest.TestCase):
         return self.get_test_directory() + "data\\"
 
     def get_test_directory(self):
-        return self.get_root_directory() + "test\\"
+        return self.get_root_directory() + "tests\\"
 
     def get_root_directory(self):
         return str(Path(os.path.realpath(__file__)).parent.parent) + "\\"

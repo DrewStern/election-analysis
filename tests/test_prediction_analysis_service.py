@@ -19,7 +19,7 @@ class PredictionAnalysisServiceTestCases(unittest.TestCase):
         self.mock_election_result_repository = MockElectionResultRepository()
         self.election_result_service = ElectionResultService(self.mock_election_result_repository)
         self.locality_result_service = LocalityResultService(self.election_result_service)
-        self.prediction_analysis_service = PredictionAnalysisService(self.election_result_service, self.locality_result_service)
+        self.prediction_analysis_service = PredictionAnalysisService(self.locality_result_service)
 
     def test_find_locales_with_prediction_rate_above(self):
         expected = ["County 1,FK", "County 2,FK", "County 3,FK", "County 4,FK", "County 5,FK", "County 6,FK"]

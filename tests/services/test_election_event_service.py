@@ -10,8 +10,7 @@ class ElectionEventServiceTestCases(unittest.TestCase):
     def setUp(self) -> None:
         self.mock_election_result_repository = MockElectionResultRepository()
         self.election_result_service = ElectionResultService(self.mock_election_result_repository)
-        self.locality_result_service = LocalityResultService(self.election_result_service)
-        self.election_event_service = ElectionEventService(self.election_result_service, self.locality_result_service)
+        self.election_event_service = ElectionEventService(self.election_result_service)
 
     def test_get_counties_won_by_party(self):
         expected = ["County 1", "County 3"]
@@ -44,4 +43,18 @@ class ElectionEventServiceTestCases(unittest.TestCase):
 
         expected = ["County 1", "County 3"]
         actual = self.election_event_service.get_counties_won_by_party("2005", "FK", "Democrat")
+        self.assertEqual(expected, actual)
+
+    def test_get_counties_for_state(self):
+        expected = ["County 1", "County 2", "County 3"]
+        actual = self.election_event_service.get_counties_for_state("MO")
+        self.assertEqual(expected, actual)
+
+        expected = ["County 1", "County 2", "County 3"]
+        actual = self.election_event_service.get_counties_for_state("FK")
+        self.assertEqual(expected, actual)
+
+    def test_get_localities(self):
+        expected = ["County 1,FK", "County 1,MO", "County 2,FK", "County 2,MO", "County 3,FK", "County 3,MO"]
+        actual = self.election_event_service.get_localities()
         self.assertEqual(expected, actual)

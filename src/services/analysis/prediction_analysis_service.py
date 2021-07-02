@@ -1,11 +1,11 @@
+from src.services.election_event_service import ElectionEventService
 from src.services.election_history_service import ElectionHistoryService
-from src.services.locality_result_service import LocalityResultService
 
 
 class PredictionAnalysisService:
-    def __init__(self, locality_result_service: LocalityResultService, election_history_service: ElectionHistoryService):
-        self.locality_result_service = locality_result_service
-        self.election_result_service = self.locality_result_service.election_result_service
+    def __init__(self, election_event_service: ElectionEventService, election_history_service: ElectionHistoryService):
+        self.election_event_service = election_event_service
+        self.election_result_service = self.election_event_service.election_result_service
         self.election_history_service = election_history_service
 
     def find_locales_with_prediction_rate_above(self, prediction_rate_by_locale, prediction_rate_lower_cutoff):
@@ -28,7 +28,7 @@ class PredictionAnalysisService:
 
     def sum_correct_predictions_by_locale(self):
         years = self.election_result_service.get_election_years()
-        localities = self.locality_result_service.get_localities()
+        localities = self.election_event_service.get_localities()
         locale_predictions = dict.fromkeys(localities, 0)
         for year in years:
             nation_winner = self.election_result_service.get_nationally_winning_candidate_by_year(year)

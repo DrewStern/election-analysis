@@ -80,11 +80,6 @@ class ElectionResultServiceTestCases(unittest.TestCase):
     def test_get_ranked_election_results(self):
         pass
 
-    def test_get_election_years(self):
-        expected = ["1993", "1997", "2001", "2005"]
-        actual = self.election_result_service.get_election_years()
-        self.assertEqual(expected, actual)
-
     def test_get_nationally_winning_candidate_by_year(self):
         expected = "Fake Candidate 1"
         actual = self.election_result_service.get_nationally_winning_candidate_by_year("1993")

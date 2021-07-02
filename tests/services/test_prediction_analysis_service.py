@@ -3,7 +3,7 @@ import unittest
 from src.repositories.mock_election_result_repository import MockElectionResultRepository
 from src.services.election_result_service import ElectionResultService
 from src.services.locality_result_service import LocalityResultService
-from src.services.prediction_analysis_service import PredictionAnalysisService
+from src.services.analysis.prediction_analysis_service import PredictionAnalysisService
 
 
 class PredictionAnalysisServiceTestCases(unittest.TestCase):

@@ -23,9 +23,6 @@ class ElectionResultService:
         unsorted_results = self.get_election_results(year_filter=year, county_filter=county, state_filter=state)
         return sorted(unsorted_results, key=lambda x: int(x.candidatevotes), reverse=True)
 
-    def get_election_years(self):
-        return list(sorted(set(map(lambda x: x.year, self.get_election_results()))))
-
     def get_election_results(self, year_filter=None, county_filter=None, state_filter=None, candidate_filter=None, party_filter=None):
         filtered_results = []
         for election_result in self.election_result_repository.get_election_results():

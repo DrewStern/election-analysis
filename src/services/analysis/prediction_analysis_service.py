@@ -1,11 +1,12 @@
-from src.services.election_result_service import ElectionResultService
+from src.services.election_history_service import ElectionHistoryService
 from src.services.locality_result_service import LocalityResultService
 
 
 class PredictionAnalysisService:
-    def __init__(self, locality_result_service: LocalityResultService):
+    def __init__(self, locality_result_service: LocalityResultService, election_history_service: ElectionHistoryService):
         self.locality_result_service = locality_result_service
         self.election_result_service = self.locality_result_service.election_result_service
+        self.election_history_service = election_history_service
 
     def find_locales_with_prediction_rate_above(self, prediction_rate_by_locale, prediction_rate_lower_cutoff):
         return [locale for locale in prediction_rate_by_locale if prediction_rate_by_locale[locale] >= prediction_rate_lower_cutoff]

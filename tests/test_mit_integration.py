@@ -5,7 +5,7 @@ from pathlib import Path
 
 from src.repositories.election_result_repository import ElectionResultRepository
 from src.services.election_result_service import ElectionResultService
-from src.services.benford_analysis_service import BenfordAnalysisService
+from src.services.analysis.benford_analysis_service import BenfordAnalysisService
 
 
 # The expected values here are just copy/paste of the service outputs. They should be considered as documentation.

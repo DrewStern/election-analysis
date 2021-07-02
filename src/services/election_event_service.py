@@ -2,7 +2,7 @@ from src.services.election_result_service import ElectionResultService
 from src.services.locality_result_service import LocalityResultService
 
 
-class PartyResultService:
+class ElectionEventService:
     def __init__(self, election_result_service: ElectionResultService, locality_result_service: LocalityResultService):
         self.election_result_service = election_result_service
         self.locality_result_service = locality_result_service

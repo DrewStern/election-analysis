@@ -51,7 +51,7 @@ class PredictionAnalysisServiceTestCases(unittest.TestCase):
 
     def test_get_locale_prediction_ranking(self):
         expected = ["County 1,FK", "County 1,MO", "County 2,MO", "County 3,FK", "County 2,FK", "County 3,MO"]
-        actual = self.prediction_analysis_service.get_locale_prediction_ranking()
+        actual = self.prediction_analysis_service.get_national_level_prediction_ranking_by_locale()
         self.assertEqual(expected, actual)
 
     def test_get_prediction_rate_by_locale(self):
@@ -67,7 +67,7 @@ class PredictionAnalysisServiceTestCases(unittest.TestCase):
         expected["County 1,FK"] = 0.5
         expected["County 2,FK"] = 0.0
         expected["County 3,FK"] = 0.25
-        actual = self.prediction_analysis_service.get_prediction_rate_by_locale()
+        actual = self.prediction_analysis_service.get_national_level_prediction_rate_by_locale()
         self.assertEqual(expected, actual)
 
     def test_sum_correct_predictions_by_locale(self):
@@ -78,7 +78,7 @@ class PredictionAnalysisServiceTestCases(unittest.TestCase):
         expected["County 1,FK"] = 2
         expected["County 2,FK"] = 0
         expected["County 3,FK"] = 1
-        actual = self.prediction_analysis_service.sum_correct_predictions_by_locale()
+        actual = self.prediction_analysis_service.sum_national_level_correct_predictions_by_locale()
         self.assertEqual(expected, actual)
 
 

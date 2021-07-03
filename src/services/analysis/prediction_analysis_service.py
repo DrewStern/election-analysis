@@ -14,19 +14,19 @@ class PredictionAnalysisService:
     def find_locales_with_prediction_rate_below(self, prediction_rate_by_locale, prediction_rate_upper_cutoff):
         return [locale for locale in prediction_rate_by_locale if prediction_rate_by_locale[locale] <= prediction_rate_upper_cutoff]
 
-    def get_locale_prediction_ranking(self):
-        unsorted_prediction_rate = self.get_prediction_rate_by_locale()
+    def get_national_level_prediction_ranking_by_locale(self):
+        unsorted_prediction_rate = self.get_national_level_prediction_rate_by_locale()
         sorted_prediction_rate = sorted(unsorted_prediction_rate.items(), key=lambda pred_rate: pred_rate[1], reverse=True)
         return list(map(lambda locality: locality[0], sorted_prediction_rate))
 
-    def get_prediction_rate_by_locale(self):
-        correct_predictions = self.sum_correct_predictions_by_locale()
+    def get_national_level_prediction_rate_by_locale(self):
+        correct_predictions = self.sum_national_level_correct_predictions_by_locale()
         number_of_elections = len(self.election_result_service.get_election_years())
         if number_of_elections == 0:
             raise ZeroDivisionError("number_of_elections should be > 0")
         return {locale: correct_predictions / number_of_elections for locale, correct_predictions in correct_predictions.items()}
 
-    def sum_correct_predictions_by_locale(self):
+    def sum_national_level_correct_predictions_by_locale(self):
         years = self.election_result_service.get_election_years()
         localities = self.election_event_service.get_localities()
         locale_predictions = dict.fromkeys(localities, 0)

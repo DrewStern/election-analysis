@@ -11,11 +11,6 @@ class ElectionHistoryServiceTestCases(unittest.TestCase):
         self.election_result_service = ElectionResultService(self.mock_election_repository)
         self.election_history_service = ElectionHistoryService(self.election_result_service)
 
-    def test_get_election_years(self):
-        expected = ["1993", "1997", "2001", "2005"]
-        actual = self.election_history_service.get_election_years()
-        self.assertEqual(expected, actual)
-
     def test_get_winning_party_history_for_locality(self):
         expected = ["Republican", "Democrat"]
         actual = self.election_history_service.get_winning_party_history_for_locality("County 1,MO")

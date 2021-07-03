@@ -1,5 +1,6 @@
 import unittest
 
+from src.models.election_event import ElectionEvent
 from src.repositories.mock_election_result_repository import MockElectionResultRepository
 from src.services.election_result_service import ElectionResultService
 from src.services.election_event_service import ElectionEventService
@@ -10,6 +11,29 @@ class ElectionEventServiceTestCases(unittest.TestCase):
         self.mock_election_result_repository = MockElectionResultRepository()
         self.election_result_service = ElectionResultService(self.mock_election_result_repository)
         self.election_event_service = ElectionEventService(self.election_result_service)
+
+    def test_get_election_years(self):
+        expected = ["1993", "1997", "2001", "2005"]
+        actual = self.election_event_service.get_election_years()
+        self.assertEqual(expected, actual)
+
+    def test_get_election_events(self):
+        expected = [
+            ElectionEvent("1993", "MO", "County 1"),
+            ElectionEvent("1993", "MO", "County 2"),
+            ElectionEvent("1993", "MO", "County 3"),
+            ElectionEvent("1997", "FK", "County 1"),
+            ElectionEvent("1997", "FK", "County 2"),
+            ElectionEvent("1997", "FK", "County 3"),
+            ElectionEvent("2001", "MO", "County 1"),
+            ElectionEvent("2001", "MO", "County 2"),
+            ElectionEvent("2001", "MO", "County 3"),
+            ElectionEvent("2005", "FK", "County 1"),
+            ElectionEvent("2005", "FK", "County 2"),
+            ElectionEvent("2005", "FK", "County 3"),
+        ]
+        actual = self.election_event_service.get_election_events()
+        self.assertEqual(expected, actual)
 
     def test_get_counties_won_by_party(self):
         expected = ["County 1", "County 3"]

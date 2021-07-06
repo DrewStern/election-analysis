@@ -1,14 +1,19 @@
+from src.models.election_event import ElectionEvent
+
+
 class ElectionResult:
     def __init__(self, year, state, candidate, party, candidatevotes, totalvotes, county=None):
+        self.election_event = ElectionEvent(year, state, county)
         self.year = year
         self.state = state
-        self.candidate = candidate.replace(",", "")
-        self.party = party
-        self.candidatevotes = candidatevotes
-        self.totalvotes = totalvotes
         if county is not None:
             self.county = county
             self.locale = self.county + "," + self.state
+        self.totalvotes = totalvotes
+
+        self.candidate = candidate.replace(",", "")
+        self.party = party
+        self.candidatevotes = candidatevotes
 
     def __str__(self):
         return "{0}, {1}, {2}, {3}".format(self.year, self.locale, self.candidate, self.party)

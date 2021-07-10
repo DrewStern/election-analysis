@@ -1,5 +1,5 @@
-from src.models.election_result import ElectionResult
-from src.repositories.election_result_repository import ElectionResultRepository
+from src.data.models.election_result import ElectionResult
+from src.data.repositories.election_result_repository import ElectionResultRepository
 
 
 class MockElectionResultRepository(ElectionResultRepository):

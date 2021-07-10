@@ -1,7 +1,7 @@
 import unittest
 
-from src.models.election_event import ElectionEvent
-from src.repositories.mock_election_result_repository import MockElectionResultRepository
+from src.data.models.election_event import ElectionEvent
+from src.data.repositories.mock_election_result_repository import MockElectionResultRepository
 from src.services.election_result_service import ElectionResultService
 from src.services.election_event_service import ElectionEventService
 

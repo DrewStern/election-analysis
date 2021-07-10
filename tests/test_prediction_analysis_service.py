@@ -1,6 +1,6 @@
 import unittest
 
-from src.repositories.mock_election_result_repository import MockElectionResultRepository
+from src.data.repositories.mock_election_result_repository import MockElectionResultRepository
 from src.services.election_event_service import ElectionEventService
 from src.services.election_history_service import ElectionHistoryService
 from src.services.election_result_service import ElectionResultService
@@ -20,7 +20,7 @@ class PredictionAnalysisServiceTestCases(unittest.TestCase):
         self.mock_election_result_repository = MockElectionResultRepository()
         self.election_result_service = ElectionResultService(self.mock_election_result_repository)
         self.election_event_service = ElectionEventService(self.election_result_service)
-        self.election_history_service = ElectionHistoryService(self.election_result_service)
+        self.election_history_service = ElectionHistoryService(self.election_event_service, self.election_result_service)
         self.prediction_analysis_service = PredictionAnalysisService(self.election_event_service, self.election_history_service)
 
     def test_find_locales_with_prediction_rate_above(self):

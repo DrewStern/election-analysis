@@ -1,4 +1,4 @@
-from src.models.election_event import ElectionEvent
+from src.data.models.election_event import ElectionEvent
 
 
 class ElectionResult:

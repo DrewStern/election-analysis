@@ -3,7 +3,7 @@ import os
 import unittest
 from pathlib import Path
 
-from src.repositories.election_result_repository import ElectionResultRepository
+from src.data.repositories.election_result_repository import ElectionResultRepository
 from src.services.election_result_service import ElectionResultService
 from src.services.analysis.benford_analysis_service import BenfordAnalysisService
 

@@ -21,13 +21,13 @@ class PredictionAnalysisService:
 
     def get_national_level_prediction_rate_by_locale(self):
         correct_predictions = self.sum_national_level_correct_predictions_by_locale()
-        number_of_elections = len(self.election_result_service.get_election_years())
+        number_of_elections = len(self.election_event_service.get_election_years())
         if number_of_elections == 0:
             raise ZeroDivisionError("number_of_elections should be > 0")
         return {locale: correct_predictions / number_of_elections for locale, correct_predictions in correct_predictions.items()}
 
     def sum_national_level_correct_predictions_by_locale(self):
-        years = self.election_result_service.get_election_years()
+        years = self.election_event_service.get_election_years()
         localities = self.election_event_service.get_localities()
         locale_predictions = dict.fromkeys(localities, 0)
         for year in years:

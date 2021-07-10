@@ -2,7 +2,7 @@ import unittest
 
 from src.services.analysis.benford_analysis_service import BenfordAnalysisService
 from src.services.election_result_service import ElectionResultService
-from src.repositories.mock_election_result_repository import MockElectionResultRepository
+from src.data.repositories.mock_election_result_repository import MockElectionResultRepository
 
 
 # digit_occurrence_template = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]

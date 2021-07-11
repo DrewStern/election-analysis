@@ -1,3 +1,4 @@
+from src.data.models.election_event import ElectionEvent
 from src.data.repositories.election_result_repository import ElectionResultRepository
 
 
@@ -5,22 +6,22 @@ class ElectionResultService:
     def __init__(self, election_result_repository: ElectionResultRepository):
         self.election_result_repository = election_result_repository
 
-    def get_winning_party_for_election(self, year, county, state):
-        election_ranking = self.get_party_ranking_for_election(year, county, state)
+    def get_winning_party_for_election(self, election_event: ElectionEvent):
+        election_ranking = self.get_party_ranking_for_election(election_event)
         return election_ranking[0] if len(election_ranking) > 0 else None
 
-    def get_party_ranking_for_election(self, year, county, state):
-        return list(map(lambda x: x.party, self.get_ranked_election_results(year, county, state)))
+    def get_party_ranking_for_election(self, election_event: ElectionEvent):
+        return list(map(lambda x: x.party, self.get_ranked_election_results(election_event)))
 
-    def get_winning_candidate_for_election(self, year, county, state):
-        election_ranking = self.get_candidate_ranking_for_election(year, county, state)
+    def get_winning_candidate_for_election(self, election_event: ElectionEvent):
+        election_ranking = self.get_candidate_ranking_for_election(election_event)
         return election_ranking[0] if len(election_ranking) > 0 else None
 
-    def get_candidate_ranking_for_election(self, year, county, state):
-        return list(map(lambda x: x.candidate, self.get_ranked_election_results(year, county, state)))
+    def get_candidate_ranking_for_election(self, election_event: ElectionEvent):
+        return list(map(lambda x: x.candidate, self.get_ranked_election_results(election_event)))
 
-    def get_ranked_election_results(self, year, county, state):
-        unsorted_results = self.get_election_results(year_filter=year, county_filter=county, state_filter=state)
+    def get_ranked_election_results(self, election_event: ElectionEvent):
+        unsorted_results = self.get_election_results(year_filter=election_event.year, county_filter=election_event.county, state_filter=election_event.state)
         return sorted(unsorted_results, key=lambda x: int(x.candidatevotes), reverse=True)
 
     def get_election_results(self, year_filter=None, county_filter=None, state_filter=None, candidate_filter=None, party_filter=None):

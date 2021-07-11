@@ -1,3 +1,4 @@
+from src.data.models.election_event import ElectionEvent
 from src.services.election_event_service import ElectionEventService
 from src.services.election_result_service import ElectionResultService
 
@@ -16,10 +17,9 @@ class ElectionHistoryService:
     def get_winner_history_for_locality(self, locality, callback):
         years = self.election_event_service.get_election_years()
         winning_candidate_history = dict.fromkeys(years, "")
-        county = locality.split(',')[0]
-        state = locality.split(',')[1]
         for year in years:
-            winning_candidate = callback(year, county, state)
+            election_event = ElectionEvent(year, locality.split(',')[1], locality.split(',')[0])
+            winning_candidate = callback(election_event)
             if winning_candidate != None:
                 winning_candidate_history[year] = winning_candidate
         return winning_candidate_history

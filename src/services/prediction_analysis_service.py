@@ -1,3 +1,4 @@
+from src.data.models.election_event import ElectionEvent
 from src.services.election_history_service import ElectionHistoryService
 
 
@@ -32,9 +33,8 @@ class PredictionAnalysisService:
         for year in years:
             nation_winner = self.election_result_service.get_nationally_winning_candidate_by_year(year)
             for locality in localities:
-                county = locality.split(',')[0]
-                state = locality.split(',')[1]
-                county_winner = self.election_result_service.get_winning_candidate_for_election(year, county, state)
+                election_event = ElectionEvent(year, locality.split(',')[1], locality.split(',')[0])
+                county_winner = self.election_result_service.get_winning_candidate_for_election(election_event)
                 if county_winner == nation_winner:
                     locale_predictions[locality] += 1
         return locale_predictions

@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# TODO: need to specify default values here
-python_version=$1
-pyenv_version=$2
+python_version=${1:-3.9.4}
+pyenv_version=${2:-2.64.8}
 
 python -m pip install --upgrade pip
 

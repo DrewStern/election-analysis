@@ -1,0 +1,19 @@
+Name                                                       Stmts   Miss Branch BrPart  Cover   Missing
+------------------------------------------------------------------------------------------------------
+src\data\models\election_event.py                             11      2      2      1    77%   10, 13
+src\data\models\election_result.py                            23      1      2      1    92%   9->12, 19
+src\data\repositories\election_result_repository.py           33     17      4      1    51%   13, 23-30, 33-40
+src\data\repositories\mock_election_result_repository.py      19      6      0      0    68%   55-60
+src\services\benford_analysis_service.py                      31      2     14      2    91%   19, 31
+src\services\election_event_service.py                        31      0     18      0   100%
+src\services\election_history_service.py                      20      0      4      0   100%
+src\services\election_result_service.py                       42      2     22      0    97%   51-52
+src\services\prediction_analysis_service.py                   33      1     18      1    96%   25
+tests\test_benford_analysis_service.py                        90      1      2      1    98%   136
+tests\test_election_event_service.py                          54      0      0      0   100%
+tests\test_election_history_service.py                        31      0      0      0   100%
+tests\test_election_result_service.py                         67      1      2      1    97%   90
+tests\test_mit_integration.py                                721      4      2      1    99%   783, 786, 789, 808
+tests\test_prediction_analysis_service.py                     66      1      2      1    97%   86
+------------------------------------------------------------------------------------------------------
+TOTAL                                                       1272     38     92     10    96%

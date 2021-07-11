@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# install poetry and update to latest version if needed
 pip install --user poetry
 poetry_command="poetry self update"
 poetry_command_result=$(${poetry_command})

@@ -1,0 +1,9 @@
+Name                                          Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------------------------
+src\services\benford_analysis_service.py         31      2     14      2    91%   19, 31
+src\services\election_event_service.py           23      0     14      0   100%
+src\services\election_history_service.py         20      0      4      0   100%
+src\services\election_result_service.py          52     10     26      0    82%   10-17, 62-63
+src\services\prediction_analysis_service.py      33      1     18      1    96%   26
+-----------------------------------------------------------------------------------------
+TOTAL                                           159     13     76      3    91%

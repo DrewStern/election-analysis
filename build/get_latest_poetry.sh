@@ -3,7 +3,6 @@
 # See here for docs:
 # https://python-poetry.org/docs/
 
-pip install --user poetry
 poetry_command="poetry self update"
 poetry_command_result=$(${poetry_command})
 poetry_version_message="You are using the latest version"

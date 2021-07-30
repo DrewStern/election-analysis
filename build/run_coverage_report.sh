@@ -22,9 +22,7 @@ fi
 coverage run -m unittest discover ./tests
 
 if [ "${use_strict_coverage}" == true ]; then
-  echo "here"
-  coverage report -m --omit="tests\*,src\data\*" > ../.coverage-report-strict 2>&1
+  coverage report --show-missing --no-skip-covered --rcfile=../.coveragerc --omit="tests\*,src\data\*" > ../.coverage-report-strict 2>&1
 else
-  echo "there"
-  coverage report -m > ../.coverage-report 2>&1
+  coverage report --show-missing --no-skip-covered --rcfile=../.coveragerc > ../.coverage-report 2>&1
 fi

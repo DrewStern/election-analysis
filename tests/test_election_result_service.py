@@ -19,6 +19,50 @@ class ElectionResultServiceTestCases(unittest.TestCase):
             ElectionEvent("2005", "FK", "County 3"),
         ]
 
+    # def test_get_counties_won_by_party(self):
+    #     expected = [
+    #         ["Republican", "Republican", "Democrat"],
+    #         ["Democrat", "Republican"],
+    #         ["Republican", "Democrat"],
+    #         ["Democrat", "Republican"]
+    #     ]
+    #     for index in range(len(expected)):
+    #         actual = self.election_result_service.get_counties_won_by_party(self.test_events[index])
+    #         self.assertEqual(expected[index], actual)
+    #
+    #     expected = ["County 1", "County 3"]
+    #     actual = self.election_event_service.get_counties_won_by_party("1993", "MO", "Republican")
+    #     self.assertEqual(expected, actual)
+    #
+    #     expected = ["County 2"]
+    #     actual = self.election_event_service.get_counties_won_by_party("1993", "MO", "Democrat")
+    #     self.assertEqual(expected, actual)
+    #
+    #     expected = ["County 2", "County 3"]
+    #     actual = self.election_event_service.get_counties_won_by_party("1997", "FK", "Republican")
+    #     self.assertEqual(expected, actual)
+    #
+    #     expected = ["County 1"]
+    #     actual = self.election_event_service.get_counties_won_by_party("1997", "FK", "Democrat")
+    #     self.assertEqual(expected, actual)
+    #
+    #     expected = ["County 2", "County 3"]
+    #     actual = self.election_event_service.get_counties_won_by_party("2001", "MO", "Republican")
+    #     self.assertEqual(expected, actual)
+    #
+    #     expected = ["County 1"]
+    #     actual = self.election_event_service.get_counties_won_by_party("2001", "MO", "Democrat")
+    #     self.assertEqual(expected, actual)
+    #
+    #     expected = ["County 2"]
+    #     actual = self.election_event_service.get_counties_won_by_party("2005", "FK", "Republican")
+    #     self.assertEqual(expected, actual)
+    #
+    #     expected = ["County 1", "County 3"]
+    #     actual = self.election_event_service.get_counties_won_by_party("2005", "FK", "Democrat")
+    #     self.assertEqual(expected, actual)
+
+
     def test_get_winning_party_for_election(self):
         expected = ["Republican", "Democrat", "Republican", "Democrat"]
         for index in range(len(expected)):

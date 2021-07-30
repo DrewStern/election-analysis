@@ -3,6 +3,7 @@ class ElectionEvent:
         self.year = year
         self.state = state
         self.county = county
+        self.locale = self.county + "," + self.state
 
     def __eq__(self, other):
         if isinstance(other, ElectionEvent):

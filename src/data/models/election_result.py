@@ -15,6 +15,11 @@ class ElectionResult:
         self.party = party
         self.candidatevotes = candidatevotes
 
+    def __eq__(self, other):
+        if isinstance(other, ElectionResult):
+            return self.election_event == other.election_event and self.candidate == other.candidate and self.party == other.party and self.candidatevotes == other.candidatevotes
+        return False
+
     def __str__(self):
         return "{0}, {1}, {2}, {3}".format(self.year, self.locale, self.candidate, self.party)
 

@@ -6,6 +6,16 @@ class ElectionResultService:
     def __init__(self, election_result_repository: ElectionResultRepository):
         self.election_result_repository = election_result_repository
 
+    def get_counties_won_by_party(self, year_filter, state_filter, party_filter):
+        counties_won_by_party = []
+        counties_in_state = self.get_counties_for_state(state_filter)
+        for county in counties_in_state:
+            election_event = ElectionEvent(year_filter, state_filter, county)
+            winning_party = self.election_result_service.get_winning_party_for_election(election_event)
+            if winning_party == party_filter:
+                counties_won_by_party.append(county)
+        return counties_won_by_party
+
     def get_winning_party_for_election(self, election_event: ElectionEvent):
         election_ranking = self.get_party_ranking_for_election(election_event)
         return election_ranking[0] if len(election_ranking) > 0 else None

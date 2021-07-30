@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # lists what Python versions are available for local install
-python_version=$1
+python_version=${1}
 pyenv_local_command="pyenv local"
 pyenv_local_command_result=$(${pyenv_local_command})
 if [[ ${pyenv_local_command_result} == ${python_version} ]]; then

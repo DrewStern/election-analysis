@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# use_strict_coverage means to omit `tests\*` and `src\data\*` directories from coverage
 use_strict_coverage=${1:-false}
 
 coverage run -m unittest discover ./tests

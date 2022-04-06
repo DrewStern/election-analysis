@@ -4,3 +4,5 @@ A tool for doing analysis on election results, in particular: (1) querying/filte
 Data used in this app was found at: https://electionlab.mit.edu/. Please see more of their work at https://github.com/MEDSL.
 
 Partially followed this guide: https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/
+
+Also see https://python-patterns.guide/

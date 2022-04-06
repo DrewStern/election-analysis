@@ -1,4 +1,2 @@
-.coverage
-**/__pycache__/
-htmlcov/
-.idea/
+*.bak
+*.idea

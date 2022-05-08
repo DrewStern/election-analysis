@@ -10,9 +10,9 @@ else
   # try to install then set the local python version to the user-specified value
   # pyenv install --list | grep -x "^${python_version}$"
   pyenv_install_command="pyenv install ${python_version}"
-  pyenv_install_result=$(${pyenv_install_command})
+  pyenv_install_command_result=$(${pyenv_install_command})
   pyenv_install_message=":: [Info] :: completed! ${python_version}"
-  if [[ ${pyenv_install_result} == ${pyenv_install_message} ]]; then
+  if [[ ${pyenv_install_command_result} == ${pyenv_install_message} ]]; then
     echo ${pyenv_install_command}": SUCCESS"
   else
     echo ${pyenv_install_command}": FAIL"

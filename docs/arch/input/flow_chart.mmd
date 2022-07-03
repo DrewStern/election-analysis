@@ -1,10 +1,31 @@
 ```mermaid
-graph TD
-    EHS{{election-history-service}} --> EES{{election-event-service}}
-    EHS --> ERS{{election-result-service}}
-    PAS{{prediction-analysis-service}} --> ERS
-    PAS --> EES
-    BAS{{benford-analysis-service}} --> ERS
+graph BT
+
+    subgraph data
+    ERR[(election<br>result<br>repository)]
+    end
+
+    subgraph domain
+    ERS{{election<br>result<br>service}}
+    EES{{election<br>event<br>service}}
+    EHS{{election<br>history<br>service}}
+    end
+
+    subgraph analysis
+    BWAS{{bellwether<br>analysis<br>service}}
+    BAS{{benford<br>analysis<br>service}}
+    LAS{{loyalty<br>analysis<br>service}}
+    PAS{{prediction<br>analysis<br>service}}
+    SAS{{spoiler<br>analysis<br>service}}
+    end
+
+    ERS --> ERR
     EES --> ERS
-    ERS --> ERR[(election-result-repository)]
+    EHS --> EES
+    EHS --> ERS
+
+
+    PAS --> ERS
+    PAS --> EES
+    BAS --> ERS
 ```

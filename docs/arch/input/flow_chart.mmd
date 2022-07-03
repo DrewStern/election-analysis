@@ -1,17 +1,7 @@
 ```mermaid
 graph BT
 
-    subgraph data
-    ERR[(election<br>result<br>repository)]
-    end
-
-    subgraph domain
-    ERS{{election<br>result<br>service}}
-    EES{{election<br>event<br>service}}
-    EHS{{election<br>history<br>service}}
-    end
-
-    subgraph analysis
+    subgraph analysis [analysis]
     BWAS{{bellwether<br>analysis<br>service}}
     BAS{{benford<br>analysis<br>service}}
     LAS{{loyalty<br>analysis<br>service}}
@@ -19,13 +9,19 @@ graph BT
     SAS{{spoiler<br>analysis<br>service}}
     end
 
+    subgraph domain [domain]
+    ERS{{election<br>result<br>service}}
+    EES{{election<br>event<br>service}}
+    EHS{{election<br>history<br>service}}
+    end
+
+    subgraph data [data]
+    ERR[(election<br>result<br>repository)]
+    MERR[(mock-election<br>result<br>repository)]
+    end
+
     ERS --> ERR
     EES --> ERS
     EHS --> EES
     EHS --> ERS
-
-
-    PAS --> ERS
-    PAS --> EES
-    BAS --> ERS
 ```

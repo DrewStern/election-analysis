@@ -6,9 +6,9 @@ from injector import inject
 
 @inject
 class ElectionHistoryService:
-    # def __init__(self, election_event_service: ElectionEventService, election_result_service: ElectionResultService):
-    #     self.election_event_service = election_event_service
-    #     self.election_result_service = election_result_service
+    def __init__(self, election_event_service: ElectionEventService, election_result_service: ElectionResultService):
+        self.election_event_service = election_event_service
+        self.election_result_service = election_result_service
 
     def get_winning_party_history_for_locality(self, locality):
         return self.get_winner_history_for_locality(locality, self.election_result_service.get_winning_party_for_election)

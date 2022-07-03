@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+
+@dataclass
 class ElectionEvent:
     def __init__(self, year, state, county):
         self.year = year

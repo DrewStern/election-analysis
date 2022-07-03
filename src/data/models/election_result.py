@@ -1,6 +1,8 @@
 from src.data.models.election_event import ElectionEvent
+from dataclasses import dataclass
 
 
+@dataclass
 class ElectionResult:
     def __init__(self, year, state, candidate, party, candidatevotes, totalvotes, county=None):
         self.election_event = ElectionEvent(year, state, county)

@@ -1,4 +1,4 @@
-from src.services.election_result_service import ElectionResultService
+from src.services.models.election_result_service import ElectionResultService
 
 
 class BenfordAnalysisService:

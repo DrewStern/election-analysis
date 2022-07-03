@@ -1,7 +1,9 @@
 #!/bin/bash
 
-input_name=${1:-arch_flow_chart.mmd}
-output_name=${2:-arch_flow_chart.png}
+# TODO: Scan the ./inputs subdirectory (which contains .mmd files), then generate a new ./outputs subdirectory (containing .png or .svg files) using the mermaid-js-cli. 
+
+input_name=${1:-flow_chart.mmd}
+output_name=${2:-flow_chart.png}
 
 # TODO: delete any existing file on disk already matching the output_name
 

@@ -1,10 +1,10 @@
 import unittest
 
 from src.data.repositories.mock_election_result_repository import MockElectionResultRepository
-from src.services.election_event_service import ElectionEventService
-from src.services.election_history_service import ElectionHistoryService
-from src.services.election_result_service import ElectionResultService
-from src.services.prediction_analysis_service import PredictionAnalysisService
+from src.services.models.election_event_service import ElectionEventService
+from src.services.models.election_history_service import ElectionHistoryService
+from src.services.models.election_result_service import ElectionResultService
+from src.services.analysis.prediction_analysis_service import PredictionAnalysisService
 
 
 class PredictionAnalysisServiceTestCases(unittest.TestCase):

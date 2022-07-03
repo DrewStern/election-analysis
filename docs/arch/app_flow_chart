@@ -1,0 +1,10 @@
+```mermaid
+graph TD
+    EHS{{election-history-service}} --> EES{{election-event-service}}
+    EHS --> ERS{{election-result-service}}
+    PAS{{prediction-analysis-service}} --> ERS
+    PAS --> EES
+    BAS{{benford-analysis-service}} --> ERS
+    EES --> ERS
+    ERS --> ERR[(election-result-repository)]
+```

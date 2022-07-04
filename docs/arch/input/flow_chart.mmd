@@ -10,9 +10,11 @@ graph BT
     end
 
     subgraph domain [domain]
+    TRS{{timespace<br>reducer<br>service}}
     ERS{{election<br>result<br>service}}
     EES{{election<br>event<br>service}}
     EHS{{election<br>history<br>service}}
+    LDS{{locality<br>data<br>service}}
     end
 
     subgraph data [data]
@@ -21,7 +23,9 @@ graph BT
     end
 
     ERS --> ERR
+    ERS --> TRS
     EES --> ERS
+    EES --> LDS
     EHS --> EES
     EHS --> ERS
 ```

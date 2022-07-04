@@ -9,9 +9,10 @@ class ElectionEvent:
         self.locale = self.county + "," + self.state
 
     def __eq__(self, other):
-        if isinstance(other, ElectionEvent):
-            return self.year == other.year and self.state == other.state and self.county == other.county
-        return False
+        return isinstance(other, ElectionEvent) \
+            and self.year == other.year \
+            and self.state == other.state \
+            and self.county == other.county
 
     def __str__(self):
         return "{0}, {1}, {2}".format(self.year, self.state, self.county)

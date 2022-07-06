@@ -1,6 +1,22 @@
 ```mermaid
 sequenceDiagram
-    ElectionHistoryService->>+ElectionEventService: GetElectionYears
-    ElectionEventService->>+ElectionResultService: GetElectionResults
-    ElectionResultService->>+ElectionResultRepository: GetElectionResults
+    participant BWAS as BellwetherAnalysisService
+    participant SAS as SpoilerAnalysisService
+    participant LAS as LoyaltyAnalysisService
+    participant PAS as PredictionAnalysisService
+    participant EHS as ElectionHistoryService
+    participant EES as ElectionEventService
+    participant ERS as ElectionResultService
+    participant ERR as ElectionResultRepository
+
+    BWAS->>+EHS: GetLocalitiesWhichBestPredictEntireNationsResults
+    BWAS->>+EHS: GetLocalitiesWhichBestPredictTheirParentStatesResults
+    SAS->>+LAS: GetLocalitiesWhereMajorPartyCandidateUnderperformedDueToSpoiler
+    SAS->>+LAS: GetLocalitiesUnderperformingHistoricalLoyaltyData
+    LAS->>+EHS: GetWinningPartyHistoryForLocality
+    PAS->>+EES: GetLocalities
+    PAS->>+EES: GetElectionYears
+    EHS->>+EES: GetElectionYears
+    EES->>+ERS: GetElectionResults
+    ERS->>+ERR: FindElectionResults
 ```

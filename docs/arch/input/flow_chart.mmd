@@ -1,10 +1,47 @@
 ```mermaid
-graph TD
-    EHS{{election-history-service}} --> EES{{election-event-service}}
-    EHS --> ERS{{election-result-service}}
-    PAS{{prediction-analysis-service}} --> ERS
-    PAS --> EES
-    BAS{{benford-analysis-service}} --> ERS
-    EES --> ERS
-    ERS --> ERR[(election-result-repository)]
+graph BT
+
+    subgraph analysis [analysis]
+    BellwetherAnalysisService{{bellwether<br>analysis<br>service}}
+    LoyaltyAnalysisService{{loyalty<br>analysis<br>service}}
+    SpoilerAnalysisService{{spoiler<br>analysis<br>service}}
+    PredictionAnalysisService{{prediction<br>analysis<br>service}}
+    BenfordAnalysisService{{benford<br>analysis<br>service}}
+    end
+
+    subgraph domain [domain]
+    ElectionDataListener{{election<br>data<br>listener}}
+    ElectionDataService{{election<br>data<br>service}}
+    ElectionEventService{{election<br>event<br>service}}
+    TimespaceDataService{{timespace<br>data<br>service}}
+    SociologyDataService{{sociology<br>data<br>service}}
+    TimespaceReducerService{{timespace<br>reducer<br>service}}
+    SociologyReducerService{{sociology<br>reducer<br>service}}
+    ElectionHistoryService{{election<br>history<br>service}}
+    ElectionRankingService{{election<br>ranking<br>service}}
+    ElectionWinnerService{{election<br>winner<br>service}}
+    end
+
+    subgraph data [data]
+    MockElectionDataRepository[(mock-election<br>data<br>repository)]
+    ElectionDataRepository[(election<br>data<br>repository)]
+    ElectionDataEmitter{{election<br>data<br>emitter}}
+    end
+
+    ElectionDataEmitter --> ElectionDataRepository
+    ElectionDataListener --> ElectionDataEmitter
+    ElectionDataService --> ElectionDataListener
+    ElectionEventService --> ElectionDataService
+    ElectionEventService --> TimespaceDataService
+    ElectionHistoryService --> ElectionEventService
+    ElectionHistoryService --> ElectionDataService
+    ElectionRankingService --> ElectionHistoryService
+    TimespaceDataService --> ElectionDataService
+    TimespaceDataService --> TimespaceReducerService
+    SociologyDataService --> ElectionDataService
+    SociologyDataService --> SociologyReducerService
+    ElectionWinnerService --> ElectionRankingService
+    BellwetherAnalysisService --> ElectionWinnerService
+    LoyaltyAnalysisService --> ElectionRankingService
+    SpoilerAnalysisService --> ElectionRankingService
 ```

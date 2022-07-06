@@ -1,10 +1,10 @@
 from src.data.models.election_event import ElectionEvent
 from src.data.repositories.election_result_repository import ElectionResultRepository
 
-
 class ElectionResultService:
-    def __init__(self, election_result_repository: ElectionResultRepository):
+    def __init__(self, election_result_repository: ElectionResultRepository, timespace_reducer_service: TimespaceReducerService):
         self.election_result_repository = election_result_repository
+        self.timespace_reducer_service = timespace_reducer_service
 
     def get_counties_won_by_party(self, year_filter, state_filter, party_filter):
         counties_won_by_party = []
@@ -36,17 +36,20 @@ class ElectionResultService:
 
     def get_election_results(self, year_filter=None, county_filter=None, state_filter=None, candidate_filter=None, party_filter=None):
         filtered_results = []
-        for election_result in self.election_result_repository.get_election_results():
+        unfiltered_results = self.election_result_repository.get_election_results()
+        # TODO: the arguments below arent quite right
+        reduced_results = self.timespace_reducer_service.filter_by(unfiltered_results, year_filter, county_filter, state_filter)
+        for election_result in reduced_results:
             if election_result.is_not_valid():
                 continue
             if election_result.is_not_major_party():
                 continue
-            if year_filter is not None and year_filter.lower() != election_result.year.lower():
-                continue
-            if county_filter is not None and county_filter.lower() != election_result.county.lower():
-                continue
-            if state_filter is not None and state_filter.lower() != election_result.state.lower():
-                continue
+            # if year_filter is not None and year_filter.lower() != election_result.year.lower():
+            #     continue
+            # if county_filter is not None and county_filter.lower() != election_result.county.lower():
+            #     continue
+            # if state_filter is not None and state_filter.lower() != election_result.state.lower():
+            #     continue
             if candidate_filter is not None and candidate_filter.lower() != election_result.candidate.lower():
                 continue
             if party_filter is not None and party_filter.lower() != election_result.party.lower():

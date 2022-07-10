@@ -32,13 +32,11 @@ graph BT
     ElectionDataListener --> ElectionDataEmitter
     ElectionDataService --> ElectionDataListener
     ElectionEventsService --> ElectionDataService
-    ElectionEventsService --> TimespaceDataService
-    ElectionEventsService --> SociologyDataService
     ElectionHistoryService --> ElectionEventsService
+    ElectionHistoryService --> TimespaceDataService
+    ElectionHistoryService --> SociologyDataService
     ElectionRankingService --> ElectionHistoryService
-    TimespaceDataService --> ElectionDataService
     TimespaceDataService --> TimespaceReducerService
-    SociologyDataService --> ElectionDataService
     SociologyDataService --> SociologyReducerService
     ElectionWinnerService --> ElectionRankingService
     BellwetherAnalysisService --> ElectionWinnerService

@@ -12,7 +12,7 @@ graph BT
     subgraph domain [domain]
     ElectionDataListener{{election<br>data<br>listener}}
     ElectionDataService{{election<br>data<br>service}}
-    ElectionEventService{{election<br>event<br>service}}
+    ElectionEventsService{{election<br>events<br>service}}
     TimespaceDataService{{timespace<br>data<br>service}}
     SociologyDataService{{sociology<br>data<br>service}}
     TimespaceReducerService{{timespace<br>reducer<br>service}}
@@ -31,10 +31,10 @@ graph BT
     ElectionDataEmitter --> ElectionDataRepository
     ElectionDataListener --> ElectionDataEmitter
     ElectionDataService --> ElectionDataListener
-    ElectionEventService --> ElectionDataService
-    ElectionEventService --> TimespaceDataService
-    ElectionHistoryService --> ElectionEventService
-    ElectionHistoryService --> ElectionDataService
+    ElectionEventsService --> ElectionDataService
+    ElectionEventsService --> TimespaceDataService
+    ElectionEventsService --> SociologyDataService
+    ElectionHistoryService --> ElectionEventsService
     ElectionRankingService --> ElectionHistoryService
     TimespaceDataService --> ElectionDataService
     TimespaceDataService --> TimespaceReducerService

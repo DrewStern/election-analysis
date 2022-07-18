@@ -4,7 +4,7 @@ from src.data.repositories.mock_election_result_repository import MockElectionRe
 from src.services.models.election_event_service import ElectionEventService
 from src.services.models.election_history_service import ElectionHistoryService
 from src.services.models.election_result_service import ElectionResultService
-from src.services.analysis.prediction_analysis_service import PredictionAnalysisService
+from src.services.analysis.prediction_service import PredictionService
 
 
 class PredictionAnalysisServiceTestCases(unittest.TestCase):
@@ -21,7 +21,7 @@ class PredictionAnalysisServiceTestCases(unittest.TestCase):
         self.election_result_service = ElectionResultService(self.mock_election_result_repository)
         self.election_event_service = ElectionEventService(self.election_result_service)
         self.election_history_service = ElectionHistoryService(self.election_event_service, self.election_result_service)
-        self.prediction_analysis_service = PredictionAnalysisService(self.election_history_service)
+        self.prediction_analysis_service = PredictionService(self.election_history_service)
 
     def test_find_locales_with_prediction_rate_above(self):
         expected = ["County 1,FK", "County 2,FK", "County 3,FK", "County 4,FK", "County 5,FK", "County 6,FK"]

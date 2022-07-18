@@ -1,7 +1,7 @@
 from src.services.models.election_result_service import ElectionResultService
 
 
-class BenfordAnalysisService:
+class BenfordService:
     def __init__(self, election_result_service: ElectionResultService):
         self.election_result_service = election_result_service
 

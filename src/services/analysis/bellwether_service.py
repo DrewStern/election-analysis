@@ -1,4 +1,4 @@
-class BellwetherAnalysisService:
+class BellwetherService:
     def __init__(self):
         pass
 

@@ -1,7 +1,7 @@
 from src.services.models.election_history_service import ElectionHistoryService
 
 
-class LoyaltyAnalysisService:
+class LoyaltyService:
     def __init__(self, election_history_service: ElectionHistoryService):
         self.election_history_service = election_history_service
 

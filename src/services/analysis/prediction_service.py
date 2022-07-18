@@ -3,7 +3,7 @@ from src.services.models.election_event_service import ElectionEventService
 from src.services.models.election_result_service import ElectionResultService
 
 
-class PredictionAnalysisService:
+class PredictionService:
     def __init__(self, election_event_service: ElectionEventService, election_result_service: ElectionResultService):
         self.election_event_service = election_event_service
         self.election_result_service = election_result_service

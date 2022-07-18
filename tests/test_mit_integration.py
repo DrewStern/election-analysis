@@ -5,7 +5,7 @@ from pathlib import Path
 
 from src.data.repositories.election_result_repository import ElectionResultRepository
 from src.services.models.election_result_service import ElectionResultService
-from src.services.analysis.benford_analysis_service import BenfordAnalysisService
+from src.services.analysis.benford_service import BenfordService
 
 
 # The expected values here are just copy/paste of the service outputs. They should be considered as documentation.
@@ -16,7 +16,7 @@ class MitIntegrationTestCases(unittest.TestCase):
         data_path = self.read_presidential_votes_county_data()
         self.election_result_repository = ElectionResultRepository(data_path)
         self.election_result_service = ElectionResultService(self.election_result_repository)
-        self.benford_analysis_service = BenfordAnalysisService(self.election_result_service)
+        self.benford_analysis_service = BenfordService(self.election_result_service)
 
     def test_calculate_benford_distribution(self):
         expected_distribution = [0.99, 28.85, 17.68, 12.74, 10.17, 8.07, 6.57, 5.53, 4.98, 4.43]

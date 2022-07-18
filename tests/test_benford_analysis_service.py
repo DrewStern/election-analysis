@@ -1,6 +1,6 @@
 import unittest
 
-from src.services.analysis.benford_analysis_service import BenfordAnalysisService
+from src.services.analysis.benford_service import BenfordService
 from src.services.models.election_result_service import ElectionResultService
 from src.data.repositories.mock_election_result_repository import MockElectionResultRepository
 
@@ -10,7 +10,7 @@ class BenfordAnalysisServiceTestCases(unittest.TestCase):
     def setUp(self):
         self.mock_election_result_repository = MockElectionResultRepository()
         self.election_result_service = ElectionResultService(self.mock_election_result_repository)
-        self.benford_analysis_service = BenfordAnalysisService(self.election_result_service)
+        self.benford_analysis_service = BenfordService(self.election_result_service)
 
     def test_get_maximum_deviation_from_benford_distribution(self):
         given_distribution = self.benford_analysis_service.first_digit_benford_distribution

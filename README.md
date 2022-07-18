@@ -6,3 +6,5 @@ Data used in this app was found at: https://electionlab.mit.edu/. Please see mor
 Partially followed this guide: https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/
 
 Also see https://python-patterns.guide/
+
+Architecture docs written using the mermaid-js live editor: https://mermaid-js.github.io/mermaid-live-editor/

@@ -9,9 +9,7 @@ graph BT
     BenfordAnalysisService{{benford<br>analysis<br>service}}
     end
 
-    subgraph domain [domain]
-    ElectionDataListener{{election<br>data<br>listener}}
-    ElectionDataService{{election<br>data<br>service}}
+    subgraph core-domain-model [core-domain-model]
     ElectionEventsService{{election<br>events<br>service}}
     TimespaceDataService{{timespace<br>data<br>service}}
     SociologyDataService{{sociology<br>data<br>service}}
@@ -20,26 +18,34 @@ graph BT
     ElectionHistoryService{{election<br>history<br>service}}
     ElectionRankingService{{election<br>ranking<br>service}}
     ElectionWinnerService{{election<br>winner<br>service}}
+    ElectionStreakService{{election<br>streak<br>service}}
     end
 
-    subgraph data [data]
+    subgraph mit-model-adapter [mit-model-adapter]
+    ElectionDataListener{{election<br>data<br>listener}}
+    ElectionDataService{{election<br>data<br>service}}
+    end
+
+    subgraph mit-data-model [mit-data-model]
+    ElectionData((election<br>model<br>data))
     MockElectionDataRepository[(mock-election<br>data<br>repository)]
     ElectionDataRepository[(election<br>data<br>repository)]
     ElectionDataEmitter{{election<br>data<br>emitter}}
     end
 
-    ElectionDataEmitter --> ElectionDataRepository
+    ElectionDataEmitter -->|execute `emit` when data changes| ElectionDataRepository
     ElectionDataListener --> ElectionDataEmitter
     ElectionDataService --> ElectionDataListener
-    ElectionEventsService --> ElectionDataService
-    ElectionHistoryService --> ElectionEventsService
-    ElectionHistoryService --> TimespaceDataService
+    ElectionEventsService -->|observes| ElectionDataService
+    ElectionHistoryService -->|lambda: order election-events by time| ElectionEventsService
+    ElectionHistoryService -->|receives these two to provide data ordering to the events| TimespaceDataService
     ElectionHistoryService --> SociologyDataService
-    ElectionRankingService --> ElectionHistoryService
-    TimespaceDataService --> TimespaceReducerService
-    SociologyDataService --> SociologyReducerService
+    ElectionRankingService -->|lambda: order election-results by candidate votes| ElectionHistoryService
+    TimespaceDataService -->|queries for lambda statement| TimespaceReducerService
+    SociologyDataService -->|queries for lambda statement| SociologyReducerService
     ElectionWinnerService --> ElectionRankingService
-    BellwetherAnalysisService --> ElectionWinnerService
+    ElectionStreakService --> ElectionWinnerService
+    BellwetherAnalysisService -->|will only need to compare self data vs national history| ElectionWinnerService
     LoyaltyAnalysisService --> ElectionRankingService
     SpoilerAnalysisService --> ElectionRankingService
 ```

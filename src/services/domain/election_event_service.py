@@ -1,5 +1,5 @@
 from src.data.models.election_event import ElectionEvent
-from src.services.models.election_result_service import ElectionResultService
+from src.services.domain.election_result_service import ElectionResultService
 
 class ElectionEventService:
     def __init__(self, election_result_service: ElectionResultService):

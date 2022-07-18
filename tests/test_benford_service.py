@@ -1,7 +1,7 @@
 import unittest
 
 from src.services.analysis.benford_service import BenfordService
-from src.services.models.election_result_service import ElectionResultService
+from src.services.domain.election_result_service import ElectionResultService
 from src.data.repositories.mock_election_result_repository import MockElectionResultRepository
 
 

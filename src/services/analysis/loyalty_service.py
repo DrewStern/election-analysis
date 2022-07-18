@@ -1,4 +1,4 @@
-from src.services.models.election_history_service import ElectionHistoryService
+from src.services.domain.election_history_service import ElectionHistoryService
 
 
 class LoyaltyService:

@@ -5,10 +5,10 @@ class LoyaltyService:
     def __init__(self, election_history_service: ElectionHistoryService):
         self.election_history_service = election_history_service
 
-    def get_most_loyal_counties_by_party(self, party_filter):
+    def get_most_loyal_counties_by_party(self, party_filter, head_count=10):
         pass
 
-    def get_least_loyal_counties_by_party(self, party_filter):
+    def get_least_loyal_counties_by_party(self, party_filter, tail_count=10):
         pass
 
     def get_locality_loyalty_ranking_by_party(self):

@@ -21,21 +21,13 @@ graph BT
     ElectionStreakService{{election<br>streak<br>service}}
     end
 
-    subgraph mit-model-adapter [mit-model-adapter]
-    ElectionDataListener{{election<br>data<br>listener}}
+    subgraph mit-election-service [mit-election-service]
     ElectionDataService{{election<br>data<br>service}}
-    end
-
-    subgraph mit-data-model [mit-data-model]
     ElectionData((election<br>model<br>data))
-    MockElectionDataRepository[(mock-election<br>data<br>repository)]
     ElectionDataRepository[(election<br>data<br>repository)]
-    ElectionDataEmitter{{election<br>data<br>emitter}}
+    MockElectionDataRepository[(mock-election<br>data<br>repository)]
     end
 
-    ElectionDataEmitter -->|execute `emit` when data changes| ElectionDataRepository
-    ElectionDataListener --> ElectionDataEmitter
-    ElectionDataService --> ElectionDataListener
     ElectionEventsService -->|observes| ElectionDataService
     ElectionHistoryService -->|lambda: order election-events by time| ElectionEventsService
     ElectionHistoryService -->|receives these two to provide data ordering to the events| TimespaceDataService

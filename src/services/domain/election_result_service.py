@@ -5,6 +5,7 @@ class ElectionResultService:
     def __init__(self, election_result_repository: ElectionResultRepository):
         self.election_result_repository = election_result_repository
 
+    # TODO: generalize this to accept a ElectionEventFilter[]
     def get_counties_won_by_party(self, year_filter, state_filter, party_filter):
         counties_won_by_party = []
         counties_in_state = self.get_counties_for_state(state_filter)
@@ -33,6 +34,7 @@ class ElectionResultService:
         unsorted_results = self.get_election_results(year_filter=election_event.year, county_filter=election_event.county, state_filter=election_event.state)
         return sorted(unsorted_results, key=lambda x: int(x.candidatevotes), reverse=True)
 
+    # TODO: generalize this to accept a ElectionEventFilter[]
     def get_election_results(self, year_filter=None, county_filter=None, state_filter=None, candidate_filter=None, party_filter=None):
         filtered_results = []
         unfiltered_results = self.election_result_repository.get_election_results()
